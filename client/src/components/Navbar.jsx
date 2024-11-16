@@ -12,6 +12,8 @@ const Navbar = () => {
 
     return (
         <div className="h-[70px] fixed inset-x-0 top-0 w-full z-[49] bg-white border-b shadow-md">
+            
+
             <div className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
                 <div className="p-4">
                     <button onClick={toggleSidebar} className="text-white">Close</button>
@@ -22,7 +24,14 @@ const Navbar = () => {
                     </nav>
                 </div>
             </div>
+
+            
+
             <div className="p-4 gap-x-4 h-full flex items-center justify-between">
+                <button onClick={toggleSidebar} className="text-gray-800">
+                    ☰
+                </button>
+                
                 <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
                     <div className="gap-x-2 flex items-center justify-center hover:opacity-75 transition-opacity cursor-pointer">
                         <img src="/assets/react.svg" alt="Popcorn and pages Logo" className="h-8 w-8" />
