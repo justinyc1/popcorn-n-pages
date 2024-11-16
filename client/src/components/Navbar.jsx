@@ -12,20 +12,16 @@ const Navbar = () => {
 
     return (
         <div className="h-[70px] fixed inset-x-0 top-0 w-full z-[49] bg-white border-b shadow-md">
-            
-
             <div className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
                 <div className="p-4">
                     <button onClick={toggleSidebar} className="text-white">Close</button>
                     <nav className="mt-4">
                         <Link to="/" className="block py-2 px-4 hover:bg-gray-700">Home</Link>
                         <Link to="/about" className="block py-2 px-4 hover:bg-gray-700">About</Link>
-                        {/* Add more sidebar links here */}
+                        {isSignedIn && <Link to="/profile" className="block py-2 px-4 hover:bg-gray-700">My Profile</Link>}
                     </nav>
                 </div>
             </div>
-
-            
 
             <div className="p-4 gap-x-4 h-full flex items-center justify-between">
                 <button onClick={toggleSidebar} className="text-gray-800">
