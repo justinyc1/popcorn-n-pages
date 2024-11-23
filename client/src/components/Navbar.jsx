@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdClose } from "react-icons/io";
 
 const Navbar = () => {
     const [isSignedIn, setIsSignedIn] = useState(false);
@@ -14,7 +16,7 @@ const Navbar = () => {
         <div className="h-[70px] fixed inset-x-0 top-0 w-full z-[49] bg-white border-b shadow-md">
             <div className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
                 <div className="p-4">
-                    <button onClick={toggleSidebar} className="text-white">Close</button>
+                    <button onClick={toggleSidebar} className="text-white"><IoMdClose /></button>
                     <nav className="mt-4">
                         <Link to="/" className="block py-2 px-4 hover:bg-gray-700">Home</Link>
                         <Link to="/about" className="block py-2 px-4 hover:bg-gray-700">About</Link>
@@ -25,7 +27,7 @@ const Navbar = () => {
 
             <div className="p-4 gap-x-4 h-full flex items-center justify-between">
                 <button onClick={toggleSidebar} className="text-gray-800">
-                    ☰
+                    <GiHamburgerMenu />
                 </button>
                 
                 <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
