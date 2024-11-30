@@ -73,8 +73,7 @@ Review.init(
 
 // Define associations (relationships) here
 Review.belongsTo(User, { foreignKey: 'userId' }); // A post belongs to a user (FK)
-// Review.hasMany(Post, { foreignKey: 'userId' });    // A user has many posts (one-to-many)
-// Review.hasMany(PostComment, { foreignKey: 'userId' }); // A user has many comments (one-to-many)
+Review.belongsTo(Media, { foreignKey: 'mediaId' }); // A review belongs to a media (FK)
 
 // Sync the model with the database (create the table if it doesn't exist)
 sequelize.sync()
