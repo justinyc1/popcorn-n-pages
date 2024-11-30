@@ -58,8 +58,10 @@ Media.init(
 );
 
 // Define associations (relationships) here
-// Media.hasMany(Post, { foreignKey: 'userId' });    // A user has many posts (one-to-many)
-// Media.hasMany(PostComment, { foreignKey: 'userId' }); // A user has many comments (one-to-many)
+Media.belongsTo(MediaType, { foreignKey: 'mediaTypeId' }); // A media belongs to a media type (FK)
+Media.belongsTo(Creator, { foreignKey: 'creatorId' }); // A media belongs to a creator (FK)
+Media.belongsTo(Genre, { foreignKey: 'genreId' }); // A media belongs to a genre (FK)
+
 
 // Sync the model with the database (create the table if it doesn't exist)
 sequelize.sync()
