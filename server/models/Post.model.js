@@ -19,6 +19,15 @@ Post.init(
         },
         onDelete: 'CASCADE', // Optional: Delete all posts by the user when the user is deleted  
     },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,    // a post must have a title
+        validate: 
+        {
+            len: [3, 250],
+            notEmpty: true,
+        },
+    },
     content: {
         type: DataTypes.STRING,
         allowNull: false,    // a post must have some content aside from title
