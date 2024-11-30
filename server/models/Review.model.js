@@ -38,7 +38,7 @@ Review.init(
     },
     title: {
         type: DataTypes.STRING,
-        allowNull: false,    // a post must have a title
+        allowNull: false,    // a review must have a title
         validate: 
         {
             len: [3, 250],
@@ -47,7 +47,7 @@ Review.init(
     },
     content: {
         type: DataTypes.STRING,
-        allowNull: false,    // a post must have some content aside from title
+        allowNull: false,    // a review must have some content aside from title
         validate: 
         {
             len: [3, 250],
