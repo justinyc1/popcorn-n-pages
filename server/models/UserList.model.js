@@ -50,6 +50,7 @@ UserList.init(
 
 // Define associations (relationships) here
 UserList.belongsTo(User, { foreignKey: 'userId' }); // A user created list belongs to a user (FK)
+UserList.hasMany(ListMedia, { foreignKey: 'userListId' }); // A user created list has many medias (one-to-many)
 
 // Sync the model with the database (create the table if it doesn't exist)
 sequelize.sync()
