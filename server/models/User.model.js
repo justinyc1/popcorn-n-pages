@@ -57,7 +57,8 @@ User.init(
 // Define associations (relationships) here
 User.hasMany(Post, { foreignKey: 'userId' });    // A user has many posts (one-to-many)
 User.hasMany(PostComment, { foreignKey: 'userId' }); // A user has many comments (one-to-many)
-// User.belongsTo(Role, { foreignKey: 'roleId' });  // A user belongs to a role (many-to-one)
+User.hasMany(Review, { foreignKey: 'userId' }); // A user has many reviews (one-to-many)
+User.hasMany(UserList, { foreignKey: 'userId' }); // A user has many user created lists (one-to-many)
 
 // Sync the model with the database (create the table if it doesn't exist)
 sequelize.sync()
