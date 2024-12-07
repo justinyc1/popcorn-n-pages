@@ -27,8 +27,9 @@ export default (sequelize, DataTypes) => {
     }
     );
 
-    Creator.associate = (/* models */) => {
+    Creator.associate = (models) => {
     // associations can be defined here
+        Creator.hasMany(models.Movie, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
     };
 
     return Creator;
