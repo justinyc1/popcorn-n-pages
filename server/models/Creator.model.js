@@ -1,42 +1,87 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from './sequelize';  // Your Sequelize instance
+import { Model } from "sequelize";
 
-class Creator extends Model { }
+export default (sequelize, DataTypes) => {
+    class Creator extends Model {}
 
-Creator.init(
-{
-    // Columns (or attributes) defined here:
-    id: {
-        type: DataTypes.INTEGER, // Column type: INTEGER
-        primaryKey: true,        // Make this the primary key
-        autoIncrement: true,     // Auto-increment the id
+    Creator.init(
+    {
+        // Columns (or attributes) defined here:
+        id: {
+            type: DataTypes.INTEGER, // Column type: INTEGER
+            primaryKey: true,        // Make this the primary key
+            autoIncrement: true,     // Auto-increment the id
+        },
+        firstName: {
+            type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
+            allowNull: false,        // First name cannot be NULL
+        },
+        lastName: {
+            type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
+            allowNull: false,        // Last name cannot be NULL
+        }
     },
-    firstName: {
-        type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
-        allowNull: false,        // First name cannot be NULL
-    },
-    lastName: {
-        type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
-        allowNull: false,        // Last name cannot be NULL
+    {
+        sequelize,             // The Sequelize instance that connects to the database
+        modelName: 'Creator',  // The name of the model (which maps to the 'creators' table by default)
+        tableName: 'creators', // Custom table name (optional, default is pluralized model name)
     }
-},
-{
-    sequelize,             // The Sequelize instance that connects to the database
-    modelName: 'Creator',  // The name of the model (which maps to the 'creators' table by default)
-    tableName: 'creators', // Custom table name (optional, default is pluralized model name)
-}
-);
+    );
 
-// Define associations (relationships) here
-Creator.hasMany(Movie, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
+    Creator.associate = (models) => {
+    // associations can be defined here
+        Creator.hasMany(models.Media, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
+    };
+    // console.log("===============CREATOR SYNC===============");
+    // Creator.sync({ force: true })
+    //     .then(() => {
+    //         console.log("Creator table has been created (if it didn't exist already).");
+    //     })
+    //     .catch(err => {
+    //         console.error("Error syncing the database during Creator table:", err);
+    //     });
+    // console.log("===============END CREATOR SYNC===============");
+    return Creator;
+};
 
-// Sync the model with the database (create the table if it doesn't exist)
-sequelize.sync()
-    .then(() => {
-        console.log("Creator table has been created (if it didn't exist already).");
-    })
-    .catch(err => {
-        console.error("Error syncing the database:", err);
-    });
+// import { Model, DataTypes } from 'sequelize';
+// import sequelize from 'sequelize';  // Your Sequelize instance
 
-export default Creator;
+// class Creator extends Model { }
+
+// Creator.init(
+// {
+//     // Columns (or attributes) defined here:
+//     id: {
+//         type: DataTypes.INTEGER, // Column type: INTEGER
+//         primaryKey: true,        // Make this the primary key
+//         autoIncrement: true,     // Auto-increment the id
+//     },
+//     firstName: {
+//         type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
+//         allowNull: false,        // First name cannot be NULL
+//     },
+//     lastName: {
+//         type: DataTypes.STRING,  // Column type: STRING (VARCHAR)
+//         allowNull: false,        // Last name cannot be NULL
+//     }
+// },
+// {
+//     sequelize,             // The Sequelize instance that connects to the database
+//     modelName: 'Creator',  // The name of the model (which maps to the 'creators' table by default)
+//     tableName: 'creators', // Custom table name (optional, default is pluralized model name)
+// }
+// );
+
+// // Define associations (relationships) here
+// Creator.hasMany(Movie, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
+
+// // Sync the model with the database (create the table if it doesn't exist)
+// sequelize.sync()
+//     .then(() => {
+//         console.log("Creator table has been created (if it didn't exist already).");
+//     })
+//     .catch(err => {
+//         console.error("Error syncing the database:", err);
+//     });
+
+// export default Creator;

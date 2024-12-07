@@ -3,9 +3,9 @@ import { Model } from "sequelize";
 // import sequelize from './sequelize';  // Your Sequelize instance
 
 export default (sequelize, DataTypes) => {
-    class Post extends Model {}
+    class PostComment extends Model {}
 
-    Post.init(
+    PostComment.init(
     {
         id: {
             type: DataTypes.INTEGER, // Column type: INTEGER
@@ -15,18 +15,14 @@ export default (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            onDelete: 'CASCADE', // Optional: Delete all posts by the user when the user is deleted  
+            onDelete: 'CASCADE', // Optional: Delete all post comments by the user when the user is deleted  
         },
-        title: {
-            type: DataTypes.STRING,
-            allowNull: false,    // a post must have a title
-            validate: 
-            {
-                len: [3, 250],
-                notEmpty: true,
-            },
+        postId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            onDelete: 'CASCADE', // Optional: Delete all post comments when the post is deleted  
         },
-        content: {
+        comment: {
             type: DataTypes.STRING,
             allowNull: false,    // a post must have some content aside from title
             validate: 
@@ -46,18 +42,18 @@ export default (sequelize, DataTypes) => {
     },
     {
         sequelize,
-        modelName: "Post",
-        tableName: 'posts',
+        modelName: "PostComment",
+        tableName: 'post_comments',
         timestamps: true,   // Automatically manage createdAt and updatedAt columns (default true)
     }
     );
 
     // Define associations (relationships) here
-    Post.associate = (models) => {
+    PostComment.associate = (models) => {
         // associations can be defined here
-        Post.belongsTo(models.User, { foreignKey: 'userId' }); // A post belongs to a user (FK)
-        Post.hasMany(models.PostComment, { foreignKey: 'postId' }); // A post has many comments (one-to-many)
+        PostComment.belongsTo(models.User, { foreignKey: 'userId' }); // A post comment belongs to a user (FK)
+        PostComment.belongsTo(models.Post, { foreignKey: 'postId' }); // A post comment belongs to a post (FK)
     };
 
-    return Post;
+    return PostComment;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { Route, Routes } from 'react-router-dom';
@@ -30,7 +31,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/edit-profile:id" element={<EditProfile />}></Route>
+          <Route path="/edit-profile/:id" element={<EditProfile />}></Route>
         </Routes>
       </div>
     </>
