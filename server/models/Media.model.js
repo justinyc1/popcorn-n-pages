@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model } from "sequelize";
 // import { Model, DataTypes } from 'sequelize';
 // import sequelize from './sequelize';  // Your Sequelize instance
 
@@ -36,7 +36,7 @@ export default (sequelize, DataTypes) => {
         },
         releaseDate: {
             type: DataTypes.DATE,    // Column type: DATE
-            defaultValue: '0000-00-00',
+            allowNull: true,
         }
     },
     {
@@ -58,13 +58,13 @@ export default (sequelize, DataTypes) => {
     };
     
     // Sync the model with the database (create the table if it doesn't exist)
-    sequelize.sync()
-        .then(() => {
-            console.log("Media table has been created (if it didn't exist already).");
-        })
-        .catch(err => {
-            console.error("Error syncing the database:", err);
-        });
+    // sequelize.sync()
+    //     .then(() => {
+    //         console.log("Media table has been created (if it didn't exist already).");
+    //     })
+    //     .catch(err => {
+    //         console.error("Error syncing the database during Media table:", err);
+    //     });
 
     return Media;
 };

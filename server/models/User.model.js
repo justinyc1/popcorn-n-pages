@@ -65,14 +65,5 @@ export default (sequelize, DataTypes) => {
         User.hasMany(models.UserList, { foreignKey: 'userId' }); // A user has many user created lists (one-to-many)
     };
 
-    // Sync the model with the database (create the table if it doesn't exist)
-    sequelize.sync()
-        .then(() => {
-            console.log("User table has been created (if it didn't exist already).");
-        })
-        .catch(err => {
-            console.error("Error syncing the database:", err);
-        });
-
     return User;
 };

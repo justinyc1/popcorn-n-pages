@@ -29,9 +29,17 @@ export default (sequelize, DataTypes) => {
 
     Creator.associate = (models) => {
     // associations can be defined here
-        Creator.hasMany(models.Movie, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
+        Creator.hasMany(models.Media, { foreignKey: 'creatorId' }); // A creator has many medias (one-to-many)
     };
-
+    // console.log("===============CREATOR SYNC===============");
+    // Creator.sync({ force: true })
+    //     .then(() => {
+    //         console.log("Creator table has been created (if it didn't exist already).");
+    //     })
+    //     .catch(err => {
+    //         console.error("Error syncing the database during Creator table:", err);
+    //     });
+    // console.log("===============END CREATOR SYNC===============");
     return Creator;
 };
 

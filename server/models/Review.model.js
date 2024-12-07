@@ -72,15 +72,6 @@ export default (sequelize, DataTypes) => {
         Review.belongsTo(models.Media, { foreignKey: 'mediaId' }); // A review belongs to a media (FK)
     };
 
-    // Sync the model with the database (create the table if it doesn't exist)
-    sequelize.sync()
-        .then(() => {
-            console.log("Review table has been created (if it didn't exist already).");
-        })
-        .catch(err => {
-            console.error("Error syncing the database:", err);
-        });
-
-        return Review;
-    };
+    return Review;
+};
     

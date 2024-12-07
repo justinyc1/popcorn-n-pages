@@ -22,45 +22,41 @@ export default (sequelize, DataTypes) => {
         sequelize,                // The Sequelize instance that connects to the database
         modelName: 'MediaType',   // The name of the model (which maps to the 'media_types' table by default)
         tableName: 'media_types', // Custom table name (optional, default is pluralized model name)
+        // timestamps: false,
     }
     );
 
     // Define associations (relationships) here
     MediaType.associate = (models) => {
         // associations can be defined here
-        MediaType.hasMany(models.Movie, { foreignKey: 'mediaTypeId' }); // A media type has many medias (one-to-many)
+        MediaType.hasMany(models.Media, { foreignKey: 'mediaTypeId' }); // A media type has many medias (one-to-many)
     };
 
-    // Sync the model with the database (create the table if it doesn't exist)
-    sequelize.sync()
-        .then(() => {
-            console.log("MediaType table has been created (if it didn't exist already).");
-        })
-        .catch(err => {
-            console.error("Error syncing the database:", err);
-        });
-
-    // create the media types
-    const createMediaTypes = async () => {
-        try {
-            await MediaType.bulkCreate([
-            {       // id: 0
-                mediaType: 'Book'
-            },
-            {       // id: 1
-                mediaType: 'Movie'
-            },
-            {       // id: 2
-                mediaType: 'TV Show'
+    const createMediaTypesIfNotExist = async () => {
+            try {
+                const { count } = await MediaType.findAndCountAll();
+                if (count === 0) {
+                    await MediaType.bulkCreate([
+                    {       // id: 0
+                        mediaType: 'Book'
+                    },
+                    {       // id: 1
+                        mediaType: 'Movie'
+                    },
+                    {       // id: 2
+                        mediaType: 'TV Show'
+                    }
+                    ]);
+                    console.log('Media types table initialized!');            
+                } else {
+                    console.log("Media types table already contains data, skipping initialization");
+                }
+            } catch (error) {
+                console.error('Error initialing media types:', error);
             }
-            ]);
-            console.log('Media types initialized!');
-        } catch (error) {
-            console.error('Error initialing media types:', error);
-        }
     };
         
-    createMediaTypes();
+    createMediaTypesIfNotExist();
 
     return MediaType;
 };

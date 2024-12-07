@@ -28,7 +28,7 @@ export default (sequelize, DataTypes) => {
 
     Genre.associate = (models) => {
     // associations can be defined here
-        Genre.hasMany(models.Movie, { foreignKey: 'genreId' }); // A genre has many medias (one-to-many)
+        Genre.hasMany(models.Media, { foreignKey: 'genreId' }); // A genre has many medias (one-to-many)
     };
 
     return Genre;

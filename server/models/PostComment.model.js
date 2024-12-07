@@ -42,7 +42,7 @@ export default (sequelize, DataTypes) => {
     },
     {
         sequelize,
-        modelName: "PostComments",
+        modelName: "PostComment",
         tableName: 'post_comments',
         timestamps: true,   // Automatically manage createdAt and updatedAt columns (default true)
     }
@@ -54,14 +54,6 @@ export default (sequelize, DataTypes) => {
         PostComment.belongsTo(models.User, { foreignKey: 'userId' }); // A post comment belongs to a user (FK)
         PostComment.belongsTo(models.Post, { foreignKey: 'postId' }); // A post comment belongs to a post (FK)
     };
-
-    sequelize.sync()
-    .then(() => {
-        console.log("PostComment table has been created (if it didn't exist already).");
-    })
-    .catch(err => {
-        console.error("Error syncing the database:", err);
-    });
 
     return PostComment;
 };

@@ -59,13 +59,5 @@ export default (sequelize, DataTypes) => {
         Post.hasMany(models.PostComment, { foreignKey: 'postId' }); // A post has many comments (one-to-many)
     };
 
-    sequelize.sync()
-    .then(() => {
-        console.log("Post table has been created (if it didn't exist already).");
-    })
-    .catch(err => {
-        console.error("Error syncing the database:", err);
-    });
-
     return Post;
 };
