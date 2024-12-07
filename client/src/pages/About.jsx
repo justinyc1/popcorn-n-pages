@@ -11,7 +11,9 @@ const About = () => {
                     <section className="mb-8">
                         <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
                         <p className="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            Our mission is to create a community-driven platform that fosters connections between users who share interests in movies, TV shows, and books. By integrating recommendations across these mediums, "Popcorn & Pages" seeks to enhance discovery, promote diverse tastes, and encourage insightful discussions within a unified app experience.
+
+
                         </p>
                     </section>
                     <section className="mb-8">

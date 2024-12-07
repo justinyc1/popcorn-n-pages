@@ -5,7 +5,6 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css'
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import DebugPage from './pages/DebugPage';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
@@ -24,15 +23,17 @@ function App() {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/debug-page" element={<DebugPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/edit-profile:id" element={<EditProfile />}></Route>
-      </Routes>
+      {/* Main Content Wrapper */}
+      <div className="main-content bg-gradient-to-r from-teal-500 to-indigo-600 p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/edit-profile/:id" element={<EditProfile />}></Route>
+        </Routes>
+      </div>
     </>
   )
 }
