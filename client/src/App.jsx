@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { Route, Routes } from 'react-router-dom';
 import './App.css'
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import DebugPage from './pages/DebugPage';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
@@ -24,6 +26,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/debug-page" element={<DebugPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />

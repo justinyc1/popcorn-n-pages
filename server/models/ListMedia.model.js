@@ -1,5 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from './sequelize';  // Your Sequelize instance
+import { Model } from "sequelize";
+// import { Model, DataTypes } from 'sequelize';
+// import sequelize from './sequelize';  // Your Sequelize instance
 
 class ListMedia extends Model { }
 
