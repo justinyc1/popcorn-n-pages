@@ -1,8 +1,11 @@
 const Home = () => {
+
+    
+
     return (
         <div className="h-screen bg-gradient-to-b from-gray-200 to-gray-100 text-gray-800 flex flex-col">
             {/* Header */}
-            <div className="text-center py-8 mt-[70px] bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-lg">
+            <div className="text-center py-8 mt-[46px] bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-lg">
                 <h1 className="text-4xl font-bold mb-2">Popcorn & Pages</h1>
                 <p className="text-md text-gray-100">Discover movies, shows, and books you’ll love.</p>
             </div>
