@@ -24,12 +24,13 @@ const Navbar = () => {
                 </button>
 
                 {/* Center Section: Logo with Emojis */}
-                <div className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-[2rem]">🍿📚</span>
+                <Link to="/" className="flex items-center gap-2 cursor-pointer">
+                    {/* <span className="text-[2rem]">🍿📚</span> */}
+                    <img src="../images/popcorn.svg" alt="icon" width="50"/>
                     <h1 className="text-[1.8rem] font-bold leading-8 tracking-wide">
                         Popcorn & Pages
                     </h1>
-                </div>
+                </Link>
 
                 {/* Right Section: Navigation Links */}
                 <div className="hidden lg:flex gap-8 text-base">

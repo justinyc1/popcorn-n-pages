@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css'
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Search from './pages/Search';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
@@ -27,6 +28,7 @@ function App() {
       <div className="main-content bg-gradient-to-r from-teal-500 to-indigo-600 p-6">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />

@@ -22,7 +22,7 @@ const EditProfile = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar /* this isnt necessary since we currently have navbar wrapping all pages in App.jsx *//> 
             <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 pt-[100px]">
                 <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
                     <h2 className="text-2xl font-bold mb-6 text-center">
