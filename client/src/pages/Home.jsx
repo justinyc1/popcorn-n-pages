@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import Card from "../components/Card"
 
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_KEY;
+    const [results, setResults] = useState(null);
     // const [search, setSearch] = useState('');
 
     // const handleInput = (event) => {
@@ -40,12 +42,13 @@ const Home = () => {
         try {
             const response = await fetch(
                 // `https://ctp-zip-code-api.onrender.com/zip/10038`
-                `/api/similar?q=${input}&type=movie&k=${apiKey}`
+                `/api/similar?q=${input}&type=movie&info=1&k=${apiKey}`
             );
             const data = await response.json();
             // console.log(data);
             console.log(data.similar.results);
             console.log(JSON.stringify(data));
+            setResults(data.similar.results);
         } catch (error) {
             console.log("Error while fetching search results:" + error);
         }
@@ -99,6 +102,16 @@ const Home = () => {
                             <li className="hover:text-indigo-500 cursor-pointer">Upcoming Book 3</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+
+            {/* Search Results */}
+            <div className="bg-gray-100 p-6 flex-grow">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Search Results</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {results && results.map((result, index) => (
+                        <Card key={index} name={result.name} type={result.type} />
+                    ))}
                 </div>
             </div>
 
