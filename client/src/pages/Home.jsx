@@ -40,19 +40,35 @@ const Home = () => {
     async function fetchSearch(input) {
         if (input.length === 0) return;
         try {
-            const response = await fetch(
-                // `https://ctp-zip-code-api.onrender.com/zip/10038`
-                `/api/similar?q=${input}&type=movie&info=1&k=${apiKey}`
-            );
-            const data = await response.json();
-            // console.log(data);
-            console.log(data.similar.results);
-            console.log(JSON.stringify(data));
-            setResults(data.similar.results);
+            const tasteDiveResponse = await fetch(`/api/similar?q=${input}&type=movie&info=1&k=${apiKey}`);
+            const tasteDiveData = await tasteDiveResponse.json();
+            const results = tasteDiveData.similar.results;
+    
+            // Fetch images for each result
+            const enrichedResults = await Promise.all(results.map(async (result) => {
+                let imageUrl = null;
+    
+                if (result.type === 'movie') {
+                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
+                    const tmdbData = await tmdbResponse.json();
+                    imageUrl = tmdbData.results[0]?.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
+                        : null;
+                } else if (result.type === 'book') {
+                    const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
+                    const booksData = await booksResponse.json();
+                    imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || null;
+                }
+    
+                return { ...result, imageUrl };
+            }));
+    
+            setResults(enrichedResults);
         } catch (error) {
-            console.log("Error while fetching search results:" + error);
+            console.error("Error while fetching search results:", error);
         }
     }
+    
 
     return (
         <div className="h-screen bg-gradient-to-b from-gray-200 to-gray-100 text-gray-800 flex flex-col">
@@ -107,13 +123,18 @@ const Home = () => {
 
             {/* Search Results */}
             <div className="bg-gray-100 p-6 flex-grow">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Search Results</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {results && results.map((result, index) => (
-                        <Card key={index} name={result.name} type={result.type} />
-                    ))}
-                </div>
-            </div>
+    <h2 className="text-2xl font-bold text-gray-800 mb-4">Search Results</h2>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {results && results.map((result, index) => (
+            <Card
+                key={index}
+                name={result.name}
+                type={result.type}
+                imageUrl={result.imageUrl}  // Passing imageUrl here
+            />
+        ))}
+    </div>
+</div>
 
             {/* Footer */}
             <footer className="bg-gray-900 text-gray-400 text-center p-4 mt-auto">
