@@ -30,12 +30,15 @@ const Home = () => {
         }
     }, []); // Empty dependency array to run only once on mount
 
+    //for Start Exploring button
     const handleExplore = () => {
         const searchInput = document.querySelector('#search-input');
-        if (searchInput) {
-            console.log(searchInput.value);
+        if (searchInput && searchInput.value.trim().length > 0) {
+            fetchSearch(searchInput.value);
+        } else {
+            console.log("Please enter a search term.");
         }
-    }
+    };
 
     async function fetchSearch(input) {
         if (input.length === 0) return;
