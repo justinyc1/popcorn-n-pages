@@ -59,9 +59,12 @@ const Home = () => {
     };
 
     async function fetchSearch(input) {
+        if (input.length == 0) return;
         if (input == prevSearchQuery) {
             console.log("Same search input, will not query the input again");
+            return;
         }
+        console.log(`Fetching data for search query: ${input}`);
         prevSearchQuery = input;
         if (input.length === 0) return;
         try {
@@ -110,7 +113,7 @@ const Home = () => {
                     <input
                         id="search-input"
                         type="text"
-                        placeholder="Search for movies, shows, or books..."
+                        placeholder="Search recommendation for movies, shows, or books..."
                         className="w-full lg:w-2/3 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                         // onChange={(event) => handleInput(event)}
                     />
