@@ -3,7 +3,8 @@ import Card from "../components/Card"
 
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_KEY;
-    const [results, setResults] = useState(null);
+    const [results, setResults] = useState([]);
+    let prevSearchQuery = " ";
     // const [search, setSearch] = useState('');
 
     // const handleInput = (event) => {
@@ -17,7 +18,13 @@ const Home = () => {
             const handleKeyPress = function (e) {
                 if (searchInput.value.length !== 0 && e.key === 'Enter') { 
                     console.log("Search input: " + searchInput.value);
-                    fetchSearch(searchInput.value);
+                    // fetchSearch(searchInput.value);
+                    // if (searchInput == prevSearchQuery) {
+                    //     console.log("Same search input, will not fetch again.");
+                    // } else {
+                        fetchSearch(searchInput.value);    
+                    // }
+                    // prevSearchQuery = searchInput;
                 }
             };
             searchInput.addEventListener("keypress", handleKeyPress);
@@ -25,7 +32,13 @@ const Home = () => {
             // Clean up the event listener when the component unmounts
             return () => {
                 searchInput.removeEventListener("keypress", handleKeyPress);
-                fetchSearch(searchInput.value);
+                // fetchSearch(searchInput.value);
+                // if (searchInput == prevSearchQuery) {
+                //     console.log("Same query, will not fetch again.");
+                // } else {
+                    fetchSearch(searchInput.value);    
+                // }
+                // prevSearchQuery = searchInput;
             };
         }
     }, []); // Empty dependency array to run only once on mount
@@ -34,13 +47,22 @@ const Home = () => {
     const handleExplore = () => {
         const searchInput = document.querySelector('#search-input');
         if (searchInput && searchInput.value.trim().length > 0) {
-            fetchSearch(searchInput.value);
+            // if (searchInput == prevSearchQuery) {
+            //     console.log("Same query, will not fetch again.");
+            // } else {
+                fetchSearch(searchInput.value);    
+            // }
+            // prevSearchQuery = searchInput;
         } else {
             console.log("Please enter a search term.");
         }
     };
 
     async function fetchSearch(input) {
+        if (input == prevSearchQuery) {
+            console.log("Same search input, will not query the input again");
+        }
+        prevSearchQuery = input;
         if (input.length === 0) return;
         try {
             const tasteDiveResponse = await fetch(`/api/similar?q=${input}&type=movie&info=1&k=${apiKey}`);
@@ -125,19 +147,21 @@ const Home = () => {
             </div>
 
             {/* Search Results */}
-            <div className="bg-gray-100 p-6 flex-grow">
-    <h2 className="text-2xl font-bold text-gray-800 mb-4">Search Results</h2>
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {results && results.map((result, index) => (
-            <Card
-                key={index}
-                name={result.name}
-                type={result.type}
-                imageUrl={result.imageUrl}  // Passing imageUrl here
-            />
-        ))}
-    </div>
-</div>
+            {results.length > 0 && ( // only show if there is a query
+                <div className="bg-gray-100 p-6 flex-grow">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Search Results</h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {results && results.map((result, index) => (
+                            <Card
+                                key={index}
+                                name={result.name}
+                                type={result.type}
+                                imageUrl={result.imageUrl}  // Passing imageUrl here
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Footer */}
             <footer className="bg-gray-900 text-gray-400 text-center p-4 mt-auto">
