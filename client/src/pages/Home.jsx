@@ -4,6 +4,8 @@ import Card from "../components/Card"
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_KEY;
     const [results, setResults] = useState([]);
+    const [selectedMedia, setSelectedMedia] = useState('movie');
+
     let prevSearchQuery = " ";
     // const [search, setSearch] = useState('');
 
@@ -22,7 +24,7 @@ const Home = () => {
                     // if (searchInput == prevSearchQuery) {
                     //     console.log("Same search input, will not fetch again.");
                     // } else {
-                        fetchSearch(searchInput.value);    
+                        fetchSearch(searchInput.value, selectedMedia);    
                     // }
                     // prevSearchQuery = searchInput;
                 }
@@ -36,7 +38,7 @@ const Home = () => {
                 // if (searchInput == prevSearchQuery) {
                 //     console.log("Same query, will not fetch again.");
                 // } else {
-                    fetchSearch(searchInput.value);    
+                    fetchSearch(searchInput.value, selectedMedia);    
                 // }
                 // prevSearchQuery = searchInput;
             };
@@ -50,7 +52,7 @@ const Home = () => {
             // if (searchInput == prevSearchQuery) {
             //     console.log("Same query, will not fetch again.");
             // } else {
-                fetchSearch(searchInput.value);    
+                fetchSearch(searchInput.value, selectedMedia);    
             // }
             // prevSearchQuery = searchInput;
         } else {
@@ -58,17 +60,19 @@ const Home = () => {
         }
     };
 
-    async function fetchSearch(input) {
+    async function fetchSearch(input, type) {
         if (input.length == 0) return;
-        if (input == prevSearchQuery) {
-            console.log("Same search input, will not query the input again");
-            return;
-        }
+        // if (input == prevSearchQuery) {
+        //     console.log("Same search input, will not query the input again");
+        //     return;
+        // }
         console.log(`Fetching data for search query: ${input}`);
         prevSearchQuery = input;
         if (input.length === 0) return;
         try {
-            const tasteDiveResponse = await fetch(`/api/similar?q=${input}&type=movie&info=1&k=${apiKey}`);
+            console.log("selected media in fetchSearch(): " + selectedMedia);
+            console.log("type in fetchSearch(): " + type);
+            const tasteDiveResponse = await fetch(`/api/similar?q=${input}&type=${type}&info=1&k=${apiKey}`);
             const tasteDiveData = await tasteDiveResponse.json();
             const results = tasteDiveData.similar.results;
     
@@ -83,20 +87,31 @@ const Home = () => {
                         ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
                         : null;
                 } else if (result.type === 'book') {
-                    const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
-                    const booksData = await booksResponse.json();
-                    imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || null;
+                    try {
+                        const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
+                        const booksData = await booksResponse.json();
+                        imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || null;
+                    } catch (e) {
+                        console.log(`Failed to fetch image for book ${result.name}:` + e);
+                    }
                 }
     
                 return { ...result, imageUrl };
             }));
     
             setResults(enrichedResults);
+            console.log("Success, displaying results");
         } catch (error) {
             console.error("Error while fetching search results:", error);
         }
     }
-    
+
+    const handleMediaChange = (event) => {
+        setSelectedMedia(event.target.value);
+        console.log("selected media in handleMediaChange(): " + event.target.value);
+        console.log(selectedMedia);
+
+    };
 
     return (
         <div className="h-screen bg-gradient-to-b from-gray-200 to-gray-100 text-gray-800 flex flex-col">
@@ -117,6 +132,44 @@ const Home = () => {
                         className="w-full lg:w-2/3 p-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                         // onChange={(event) => handleInput(event)}
                     />
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
+                        <h2 style={{ margin: 0, whiteSpace: 'nowrap' }}>Select A Media Type:</h2>
+
+                        <form id="media-form" style={{ display: 'flex', gap: '15px' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <input 
+                                type="radio" 
+                                name="media" 
+                                value="movie" 
+                                checked={selectedMedia === 'movie'}
+                                onChange={handleMediaChange}
+                            />
+                            Movies
+                            </label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <input 
+                                type="radio" 
+                                name="media" 
+                                value="book" 
+                                checked={selectedMedia === 'book'}
+                                onChange={handleMediaChange}
+                            />
+                            Books
+                            </label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <input 
+                                type="radio" 
+                                name="media" 
+                                value="show" 
+                                checked={selectedMedia === 'show'}
+                                onChange={handleMediaChange}
+                            />
+                            TV Shows
+                            </label>
+                        </form>
+                        </div>
+
 
                     <div className="default-content mt-6 text-center">
                         <p className="text-gray-700 text-lg mb-4">
