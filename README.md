@@ -1,8 +1,15 @@
-# 🎬📖 Popcorn & Pages
-A Recommendation Hub for Movies, TV Shows, and Books
-Popcorn & Pages is a community-driven recommendation platform that helps users discover movies, TV shows, and books based on their preferences. It combines API-powered recommendations with user-generated reviews, ratings, and discussions, making media exploration more engaging and personalized.
+# Popcorn & Pages
 
-## Features
-* 🔍 Smart Recommendations – Get personalized movie, TV show, and book recommendations powered by APIs
-*
-*
+Popcorn & Pages is a full stack web application that give personalized recommendations tailored for each user.
+
+This project is currently in development and will be updated frequently.
+
+
+## Authors
+[@justinyc1](https://github.com/justinyc1/)  
+[@Ramisacode](https://github.com/Ramisacode/)  
+
+This is a forked repo from a previous project that we worked on with two other authors:
+
+[@arelymartinez16](https://github.com/arelymartinez16/)  
+[@nurdogrusoz](https://github.com/nurdogrusoz/)
