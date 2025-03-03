@@ -25,7 +25,8 @@ function App() {
     <>
       <Navbar />
       {/* Main Content Wrapper */}
-      <div className="main-content bg-gradient-to-r from-teal-500 to-indigo-600 p-6">
+      <div className="main-content pt-14 min-h-screen bg-gradient-to-r from-lightorange-lightest/70 via-lightgreen-lightest/70 to-lightblue-lightest/70">
+      {/* <div className="main-content bg-gradient-to-r px-6"> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
