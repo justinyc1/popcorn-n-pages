@@ -3,7 +3,7 @@ import morgan from "morgan";
 import process from "node:process";
 import path from "node:path";
 import { sequelize } from "./models/index.js";
-import apiRouter from "./controllers/index.js";
+// import apiRouter from "./controllers/index.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -15,7 +15,7 @@ const logFormat = app.get("env") === "production" ? "combined" : "dev";
 app.use(morgan(logFormat));
 
 // load our controller routes at /api
-app.use("/api", apiRouter);
+// app.use("/api", apiRouter);
 
 // for production use, we serve the static react build folder
 if (process.env.NODE_ENV === "production") {

@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "dev": "node --watch --env-file=.env app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sequelize/postgres": "^7.0.0-alpha.46",
     "express": "^4.21.2",
     "morgan": "^1.10.0",
     "pg": "^8.13.1",
