@@ -1,7 +1,4 @@
 import { Model } from "sequelize";
-// import { DataTypes } from 'sequelize';
-// import { Model, DataTypes } from 'sequelize';
-// import sequelize from './sequelize';  // Your Sequelize instance
 
 export default (sequelize, DataTypes) => {
     class Genre extends Model {}
