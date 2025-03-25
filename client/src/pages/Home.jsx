@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card"
+// import dotenv from "dotenv";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_KEY;
@@ -60,6 +62,17 @@ const Home = () => {
             console.log("Please enter a search term.");
         }
     };
+    //dotenv.config();
+    // const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+    // async function run() {
+    //   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    //   const prompt = "give me similar content";
+    //   const result = await model.generateContent(prompt);
+    //   const response = await result.response;
+    //   const text = response.text();
+    //   console.log(text);
+    // }
+    // run();
 
     async function fetchSearch(input, type) {
         if (input.length == 0) return;
@@ -77,7 +90,7 @@ const Home = () => {
             const tasteDiveData = await tasteDiveResponse.json();
             const results = tasteDiveData.similar.results;
     
-            // Fetch images for each result
+            //Fetch images for each result
             const enrichedResults = await Promise.all(results.map(async (result) => {
                 let imageUrl = null;
     
