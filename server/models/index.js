@@ -3,17 +3,6 @@ import { basename, dirname } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import Sequelize, { DataTypes } from "sequelize";
-import creatorModel from './Creator.model.js';
-import genreModel from './Genre.model.js';
-import listMediaModel from './ListMedia.model.js';
-import mediaModel from './Media.model.js';
-import nediaTypeModel from './MediaType.model.js';
-import postModel from './Post.model.js';
-import postCommentModel from './PostComment.model.js';
-import reviewModel from './Review.model.js';
-import userModel from './User.model.js';
-import userListModel from './UserList.model.js';
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -60,11 +49,6 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-// Object.keys(db).forEach((key) => {
-//   if ("associate" in db[key]) {
-//     db[key].associate(db);
-//   }
-// });
 
 export { sequelize };
 

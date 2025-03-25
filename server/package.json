@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "dev": "node --watch --env-file=.env app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,8 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "@google/generative-ai": "^0.23.0",
     "dotenv": "^16.4.7",
+=======
+    "@sequelize/postgres": "^7.0.0-alpha.46",
+>>>>>>> main
     "express": "^4.21.2",
     "morgan": "^1.10.0",
     "pg": "^8.13.1",
