@@ -5,12 +5,7 @@ export default (sequelize, DataTypes) => {
 
     Media.init(
     {
-        // Columns (or attributes) defined here:
-        id: {
-            type: DataTypes.INTEGER, // Column type: INTEGER
-            primaryKey: true,        // Make this the primary key
-            autoIncrement: true,     // Auto-increment the id
-        },
+        // Columns:
         mediaTypeId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -45,24 +40,14 @@ export default (sequelize, DataTypes) => {
     }
     );
 
-    // Define associations (relationships) here
+    // Define associations
     Media.associate = (models) => { 
-        // associations can be defined here
         Media.belongsTo(models.MediaType, { foreignKey: 'mediaTypeId' }); // A media belongs to a media type (FK)
         Media.belongsTo(models.Creator, { foreignKey: 'creatorId' }); // A media belongs to a creator (FK)
         Media.belongsTo(models.Genre, { foreignKey: 'genreId' }); // A media belongs to a genre (FK)
         Media.hasMany(models.Review, { foreignKey: 'mediaId' }); // A media has many reviews (one-to-many)
         Media.hasMany(models.ListMedia, { foreignKey: 'mediaId' }); // A media is in many lists (one-to-many)
     };
-    
-    // Sync the model with the database (create the table if it doesn't exist)
-    // sequelize.sync()
-    //     .then(() => {
-    //         console.log("Media table has been created (if it didn't exist already).");
-    //     })
-    //     .catch(err => {
-    //         console.error("Error syncing the database during Media table:", err);
-    //     });
 
     return Media;
 };

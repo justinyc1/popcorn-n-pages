@@ -3,12 +3,16 @@ import morgan from "morgan";
 import process from "node:process";
 import path from "node:path";
 import { sequelize } from "./models/index.js";
-// import apiRouter from "./controllers/index.js";
+import userRoutes from './routes/users.js';
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+
+// routes
+app.use('/users', userRoutes);
+
 
 // add http request logging to help us debug and audit app use
 const logFormat = app.get("env") === "production" ? "combined" : "dev";

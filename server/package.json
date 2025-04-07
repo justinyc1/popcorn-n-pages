@@ -12,13 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "@google/generative-ai": "^0.23.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
-=======
-    "@sequelize/postgres": "^7.0.0-alpha.46",
->>>>>>> main
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",

@@ -5,12 +5,7 @@ export default (sequelize, DataTypes) => {
 
     UserList.init(
     {
-        // Columns (or attributes) defined here:
-        id: {
-            type: DataTypes.INTEGER, // Column type: INTEGER
-            primaryKey: true,        // Make this the primary key
-            autoIncrement: true,     // Auto-increment the id
-        },
+        // Columns:
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -27,14 +22,6 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,    // a user created list doesn't have to have a description
         },
-        createdAt: {
-            type: DataTypes.DATE,    // Column type: DATE
-            defaultValue: DataTypes.NOW, // Default value: current timestamp
-        },
-        updatedAt: {
-            type: DataTypes.DATE,    // Column type: DATE
-            defaultValue: DataTypes.NOW, // Default value: current timestamp
-        }
     },
     {
         sequelize,            // The Sequelize instance that connects to the database
@@ -44,21 +31,11 @@ export default (sequelize, DataTypes) => {
     }
     );
 
-    // Define associations (relationships) here
+    // Define associations
     UserList.associate = (models) => {
-        // associations can be defined here
             UserList.belongsTo(models.User, { foreignKey: 'userId' }); // A user created list belongs to a user (FK)
             UserList.hasMany(models.ListMedia, { foreignKey: 'userListId' }); // A user created list has many medias (one-to-many)
         };
-
-    // Sync the model with the database (create the table if it doesn't exist)
-    // sequelize.sync()
-    //     .then(() => {
-    //         console.log("UserList table has been created (if it didn't exist already).");
-    //     })
-    //     .catch(err => {
-    //         console.error("Error syncing the database:", err);
-    //     });
 
     return UserList;
 };
