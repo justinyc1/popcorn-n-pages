@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import jsonwebtoken from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import db from "../models/index.js";
 
-const { sign } = jsonwebtoken;
+const { sign } = jwt;
 const { User } = db;
 
 export const createNewUser = async (username, displayName, passwordHash) => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import { useCookies } from 'react-cookie';
+// import { useCookies } from 'react-cookie';
 import { Route, Routes } from 'react-router-dom';
 import './App.css'
 import Navbar from './components/Navbar';
@@ -13,16 +13,20 @@ import Register from './pages/Register';
 import EditProfile from './pages/EditProfile';
 
 function App() {  
-  const [cookies, setCookie, removeCookie] = useCookies(null);
-  const authToken = cookies.authToken;
+  // const [cookies, setCookie, removeCookie] = useCookies(null);
+  // const accessToken = cookies.accessToken;
+  const accessToken = localStorage.get("accessToken");
 
   const signOut = () => {
-    removeCookie('Email');
-    removeCookie('AuthToken');
+  //   removeCookie('email');
+  //   removeCookie('accessToken');
+    localStorage.removeItem("accessToken");
   }
 
+  // TODO auth context ==================
+
   return (
-    <>
+    <div className="App">
       <Navbar />
       {/* Main Content Wrapper */}
       <div className="main-content pt-14 min-h-screen bg-gradient-to-r from-lightorange-lightest/70 via-lightgreen-lightest/70 to-lightblue-lightest/70">
@@ -37,8 +41,8 @@ function App() {
           <Route path="/edit-profile/:id" element={<EditProfile />}></Route>
         </Routes>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
 export default App

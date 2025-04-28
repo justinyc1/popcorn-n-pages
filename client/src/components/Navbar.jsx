@@ -28,7 +28,7 @@ const Navbar = () => {
                 {/* Center Section: Logo with Emojis */}
                 <Link to="/" className="flex items-center gap-2 cursor-pointer">
                     {/* <span className="text-[2rem]">🍿📚</span> */}
-                    <img src="../images/popcorn.svg" alt="icon" width="44"/>
+                    <img src="../images/popcorn.svg" alt="icon" width="36"/>
                     <h1 className="text-[1.8rem] font-bold leading-8 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.6)] tracking-wide">
                         Popcorn & Pages
                     </h1>

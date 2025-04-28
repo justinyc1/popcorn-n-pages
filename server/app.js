@@ -4,14 +4,16 @@ import process from "node:process";
 import path from "node:path";
 import { sequelize } from "./models/index.js";
 import userRoutes from './routes/users.js';
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors()); // whitelist api connections
 
 // routes
-app.use('/users', userRoutes);
+app.use('/auth', userRoutes);
 
 
 // add http request logging to help us debug and audit app use
