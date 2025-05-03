@@ -5,7 +5,7 @@ export default (sequelize, DataTypes) => {
 
     ListMedia.init(
     {
-        // Columns (or attributes) defined here:
+        // Columns:
         userListId: {
             primaryKey: true,        // Make this a part of the composite primary key
             type: DataTypes.INTEGER,
@@ -33,8 +33,8 @@ export default (sequelize, DataTypes) => {
     }
     );
 
+    // Define associations
     ListMedia.associate = (models) => {
-    // associations can be defined here
         ListMedia.belongsTo(models.UserList, { foreignKey: 'userListId' }); // each of a list's media belongs to a list (FK)
         ListMedia.belongsTo(models.Media, { foreignKey: 'mediaId' }); // each of a list's media refer to a media (FK)
     };

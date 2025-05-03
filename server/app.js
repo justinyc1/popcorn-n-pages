@@ -3,12 +3,24 @@ import morgan from "morgan";
 import process from "node:process";
 import path from "node:path";
 import { sequelize } from "./models/index.js";
-// import apiRouter from "./controllers/index.js";
+import userRoutes from './routes/users.js';
+import cors from "cors";
+import cookieParser from "cookie-parser"
 
 const app = express();
 const PORT = process.env.PORT;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 app.use(express.json());
+app.use(cookieParser()); // allow reading cookies
+app.use(cors({
+  origin: `${FRONTEND_URL}`,
+  credentials: true
+})); // whitelist api connections
+
+// routes
+app.use('/auth', userRoutes);
+
 
 // add http request logging to help us debug and audit app use
 const logFormat = app.get("env") === "production" ? "combined" : "dev";

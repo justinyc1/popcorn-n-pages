@@ -5,11 +5,7 @@ export default (sequelize, DataTypes) => {
 
     PostComment.init(
     {
-        id: {
-            type: DataTypes.INTEGER, // Column type: INTEGER
-            primaryKey: true,        // Make this the primary key
-            autoIncrement: true,     // Auto-increment the id
-        },
+        // Columns:
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -29,14 +25,6 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true,
             },
         },
-        createdAt: {
-            type: DataTypes.DATE,    // Column type: DATE
-            defaultValue: DataTypes.NOW, // Default value: current timestamp
-        },
-        updatedAt: {
-            type: DataTypes.DATE,    // Column type: DATE
-            defaultValue: DataTypes.NOW, // Default value: current timestamp
-        }
     },
     {
         sequelize,
@@ -46,9 +34,8 @@ export default (sequelize, DataTypes) => {
     }
     );
 
-    // Define associations (relationships) here
+    // Define associations
     PostComment.associate = (models) => {
-        // associations can be defined here
         PostComment.belongsTo(models.User, { foreignKey: 'userId' }); // A post comment belongs to a user (FK)
         PostComment.belongsTo(models.Post, { foreignKey: 'postId' }); // A post comment belongs to a post (FK)
     };

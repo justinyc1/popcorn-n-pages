@@ -1,5 +1,3 @@
-import Navbar from "../components/Navbar";
-
 const About = () => {
     return (
         <>
@@ -11,7 +9,7 @@ const About = () => {
                     <section className="mb-8">
                         <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
                         <p className="text-gray-700">
-                            Our mission is to create a community-driven platform that fosters connections between users who share interests in movies, TV shows, and books. By integrating recommendations across these mediums, "Popcorn & Pages" seeks to enhance discovery, promote diverse tastes, and encourage insightful discussions within a unified app experience.
+                            Our mission is to create a community-driven platform that fosters connections between users who share interests in movies, TV shows, and books. By integrating recommendations across these mediums, Popcorn & Pages seeks to enhance discovery, promote diverse tastes, and encourage insightful discussions within a unified app experience.
 
 
                         </p>
