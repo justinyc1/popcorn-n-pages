@@ -3,20 +3,25 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import { useAuth } from "../auth/UseAuth";
 
 const Navbar = () => {
     //eslint-disable-next-line no-unused-vars
-    const [isSignedIn, setIsSignedIn] = useState(false);
+    const { isAuthenticated, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
+    const handleLogout = async () => {
+        logout();
+    }
+
     return (
         <div className="h-[60px] fixed inset-x-0 top-0 w-full z-50 bg-gradient-to-r from-lightorange via-lightgreen to-lightblue-lighter text-white shadow-lg">
             {/* Navbar Container */}
-            <div className="container mx-96 flex items-center justify-between px-10 h-full">
+            <nav className="container mx-96 flex items-center justify-between px-10 h-full">
                 {/* Left Section: Hamburger Menu */}
                 <button
                     className="text-2xl lg:hidden"
@@ -48,11 +53,22 @@ const Navbar = () => {
                     <Link to="/books" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Books
                     </Link>
-                    {isSignedIn ? (
-                        <Link to="/profile" className="hover:text-teal-300">
-                            My Profile
-                        </Link>
-                    ) : (
+                    {isAuthenticated === null &&
+                        <span>Loading...</span>
+                    }
+                    {isAuthenticated &&
+                        <>
+                            <Link to="/profile" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                                My Profile
+                            </Link>
+                            <Link to="/">
+                                <button onClick={handleLogout} className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
+                                    Logout
+                                </button>
+                            </Link>
+                        </>
+                    }
+                    {!isAuthenticated && 
                         <>
                             <Link to="/login">
                                 <button className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
@@ -65,9 +81,9 @@ const Navbar = () => {
                                 </button>
                             </Link>
                         </>
-                    )}
+                    }
                 </div>
-            </div>
+            </nav>
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
@@ -88,11 +104,15 @@ const Navbar = () => {
                         <Link to="/community" className="hover:text-teal-300">
                             Community
                         </Link>
-                        {isSignedIn ? (
+                        {isAuthenticated === null &&
+                            <span>Loading...</span>
+                        }
+                        {isAuthenticated &&
                             <Link to="/profile" className="hover:text-teal-300">
                                 My Profile
                             </Link>
-                        ) : (
+                        }
+                        {!isAuthenticated &&
                             <>
                                 <Link to="/login">
                                     <button className="border border-white px-4 py-1 rounded hover:bg-white hover:text-teal-700 transition ease-in-out duration-200">
@@ -105,7 +125,7 @@ const Navbar = () => {
                                     </button>
                                 </Link>
                             </>
-                        )}
+                        }
                     </nav>
                 </div>
             )}

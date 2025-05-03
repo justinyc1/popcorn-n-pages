@@ -17,7 +17,7 @@ export const registerUser = async (req, res) => {
 
         await createNewUser(username, displayName, hash);
 
-        res.status(201).json("User registered successfully.");
+        res.status(201).json({ message: "User registered successfully." });
     } catch (error) {
         res.status(500).json({ error: "An error occurred while registering the user." });
     }
@@ -35,9 +35,29 @@ export const loginUser = async (req, res) => {
     
         // login successful
         const accessToken = getAccessToken(user.username, user.id);
+        
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: true, 
+            sameSite: "Strict", 
+            path: "/",
+            maxAge: 1000 * 60 * 60 * 24 * 28 // 28 days
+        });
 
-        res.status(200).json({ token: accessToken, userId: user.id }); // pass the token to frontend
+        res.status(200).json({ message: "Login successful." });
     } catch (error) {
         res.status(500).json({ error: "An error occurred while trying to log in." });
     }
 };
+
+export const logoutUser = async (req, res) => {
+    res.cookie("accessToken", "", {
+        httpOnly: true,
+        secure: true, 
+        sameSite: "Strict", 
+        path: "/",
+        maxAge: 0 // delete instantly
+    });
+
+    res.status(200).json({ message: "Logout successful." });
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../config";
 
 const Register = () => {
     // keep track of user input
@@ -100,7 +101,7 @@ const Register = () => {
         setIsSubmitting(true);
         try {
             const response = await axios.post(
-                "http://localhost:8080/auth/register", 
+                `${apiUrl}/auth/register`, 
                 formData,
                 {
                     headers: { "Content-Type": "application/json" }
@@ -108,7 +109,7 @@ const Register = () => {
             );
 
             if (response.status >= 200 && response.status < 300) { // success
-                console.log("Account created: " + response.data);
+                console.log("Account created: " + response.data.message);
                 setShowSuccess(true);
                 setTimeout(() => navigate("/login"), 5000); // redirect user to home page
             }

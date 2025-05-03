@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/UseAuth";
+import { apiUrl } from "../config";
 
 const Login = () => {
     // keep track of user input
@@ -17,6 +19,9 @@ const Login = () => {
 
     // to redirect user when login is successful
     const navigate = useNavigate();
+
+    // set authentication state (to rerender) when login is successful
+    const { setIsAuthenticated } = useAuth();
 
     // update user input form as user enters information
     const handleChange = (e) => {
@@ -78,17 +83,19 @@ const Login = () => {
         setIsSubmitting(true);
         try {
             const response = await axios.post(
-                "http://localhost:8080/auth/login", 
+                `${apiUrl}/auth/login`, 
                 formData,
                 {
-                    headers: { "Content-Type": "application/json" }
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true
                 }
             );
 
             if (response.status >= 200 && response.status < 300) { // success
-                console.log("Login success: " + response.data.token);
+                console.log("Login success: " + response.data.message);
 
-                localStorage.setItem("accessToken", response.data.token);
+                setIsAuthenticated(true);
+                // localStorage.setItem("accessToken", response.data.token);
 
                 navigate("/"); // redirect user to home page
             }
@@ -113,7 +120,7 @@ const Login = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">{/* position of box in page */}
+        <div className="flex items-center justify-center h-screen"> {/* position of box in page */}
             <div className="w-1/4 p-6 mb-40 bg-white rounded-lg shadow-lg"> {/* properties of box */}
                 <h1 className="text-2xl font-semibold text-center">Login</h1>
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">

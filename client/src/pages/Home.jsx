@@ -4,7 +4,7 @@ import Card from "../components/Card"
 // import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const Home = () => {
-    const apiKey = import.meta.env.VITE_API_KEY;
+    const apiKey = import.meta.env.VITE_API_TASTEDIVE_KEY;
     const [results, setResults] = useState([]);
     const [selectedMedia, setSelectedMedia] = useState('movie');
 

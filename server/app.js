@@ -5,12 +5,18 @@ import path from "node:path";
 import { sequelize } from "./models/index.js";
 import userRoutes from './routes/users.js';
 import cors from "cors";
+import cookieParser from "cookie-parser"
 
 const app = express();
 const PORT = process.env.PORT;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 app.use(express.json());
-app.use(cors()); // whitelist api connections
+app.use(cookieParser()); // allow reading cookies
+app.use(cors({
+  origin: `${FRONTEND_URL}`,
+  credentials: true
+})); // whitelist api connections
 
 // routes
 app.use('/auth', userRoutes);
