@@ -14,28 +14,12 @@ import EditProfile from './pages/EditProfile';
 import { AuthProvider } from './auth/AuthProvider';
 
 function App() {
-  // const defaultAuthState = {
-  //   username: "",
-  //   displayName: "",
-  //   id: -1,
-  //   status: false
-  // }
-
-  // const accessToken = localStorage.getItem("accessToken");
-
-  // const [authState, setAuthState] = useState(defaultAuthState); // if logged in or not
-
-  // const signOut = () => {
-  //   localStorage.removeItem("accessToken");
-  // }
-
   return (
     <div className="App">
       <AuthProvider>
         <Navbar />
-        {/* Main Content Wrapper */}
-        <div className="main-content pt-14 min-h-screen bg-gradient-to-r from-lightorange-lightest/70 via-lightgreen-lightest/70 to-lightblue-lightest/70">
-        {/* <div className="main-content bg-gradient-to-r px-6"> */}
+        {/* <div className="main-content pt-14 min-h-screen bg-gradient-to-r from-lightorange-lightest/70 via-lightgreen-lightest/70 to-lightblue-lightest/70"> */}
+        <div className="main-content mt-[60px] bg-gray-200">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
@@ -52,3 +36,5 @@ function App() {
 }
 
 export default App
+
+// #f8f4f4

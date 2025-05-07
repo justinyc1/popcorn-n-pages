@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
+    "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
     "./src/components/**/*.{js,jsx,ts,tsx}",
     "./src/pages/**/*.{js,jsx,ts,tsx}",
@@ -26,6 +27,14 @@ export default {
           lightest: '#C3D3C1',
           lighter: '#BFCFBB',
           DEFAULT: '#B2CAB6',
+        },
+        raisinblack: {
+          lighter: '#383846',
+          DEFAULT: '#2E2E3A',
+          darker: '#24242E',
+        },
+        deepblack: {
+          DEFAULT: '#232324',
         },
       }, 
     },

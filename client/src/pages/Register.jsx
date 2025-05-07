@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../config";
@@ -20,8 +20,22 @@ const Register = () => {
     // to for when account is created successfully
     const [showSuccess, setShowSuccess] = useState(false);
 
+    const [countdown, setCountdown] = useState(5);
+
     // to redirect user when sign up is successful
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (showSuccess && countdown > 0) {
+            const timer = setTimeout(() => {
+                setCountdown(countdown - 1);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+        if (showSuccess && countdown === 0) {
+            navigate("/login");
+        }
+    }, [showSuccess, countdown, navigate]);
 
     // update user input form as user enters information
     const handleChange = (e) => {
@@ -111,7 +125,9 @@ const Register = () => {
             if (response.status >= 200 && response.status < 300) { // success
                 console.log("Account created: " + response.data.message);
                 setShowSuccess(true);
-                setTimeout(() => navigate("/login"), 5000); // redirect user to home page
+                // setTimeout(() => navigate("/login"), 5000); // redirect user to home page
+                setCountdown(5);
+                
             }
 
         } catch (error) {
@@ -188,7 +204,7 @@ const Register = () => {
                     </form>
                 </> : <>
                     <h1 className="text-2xl py-6 font-semibold text-center">Account created successfully!</h1>
-                    <h3 className="text-xl py-6 font-semibold text-center">You will be automatically redirected to the Login page in 5 seconds...</h3>
+                    <h3 className="text-xl py-6 font-semibold text-center">You will be automatically redirected to the Login page in {countdown} second{countdown !== 1 ? "s" : ""}...</h3>
                     <button 
                         onClick={() => navigate("/login")}
                         className="w-full h-9 bg-blue-500 text-white font-medium rounded-md"

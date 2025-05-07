@@ -132,12 +132,12 @@ const Home = () => {
     };
 
     return (
-        <div className="bg-gradient-to-r text-gray-800 flex flex-col">
+        <div className="bg-gradient-to-r text-deepblack flex flex-col">
             
             {/* Search and Main Section */}
             <div className="bg-white bg-opacity-50">
                 <div className="flex-1 flex flex-col my-40 items-center justify-center">
-                    <p className="text-6xl font-semibold text-gray-700">Discover your next fav.</p>
+                    <p className="text-6xl font-semibold text-deepblack">Discover your next fav.</p>
                 </div>
                 {/* <div className="flex-1 flex flex-col pb-16 items-center justify-center bg-white bg-opacity-50 shadow-2xl shadow-white/70"> */}
                 <div className="flex-1 flex flex-col pb-32 items-center justify-center ">

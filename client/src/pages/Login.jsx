@@ -121,10 +121,10 @@ const Login = () => {
 
     return (
         <div className="flex items-center justify-center h-screen"> {/* position of box in page */}
-            <div className="w-1/4 p-6 mb-40 bg-white rounded-lg shadow-lg"> {/* properties of box */}
+            <div className="w-1/4 px-[1.5rem] py-[1.5rem] mb-40 min-w-[25rem] max-w-[95%] min-h-[20rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
                 <h1 className="text-2xl font-semibold text-center">Login</h1>
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-                    <div> {/* username */}
+                    <div className="min-h-[1rem]"> {/* username */}
                         <label htmlFor="username" className="text-sm font-medium">Username:</label>
                         <input 
                             type="text" 
@@ -137,7 +137,7 @@ const Login = () => {
                         />
                         {errors.username && <span className="text-sm text-red-500">{errors.username}</span>}
                     </div>
-                    <div> {/* password */}
+                    <div className="min-h-[1rem]"> {/* password */}
                         <label htmlFor="password" className="text-sm font-medium">Password:</label>
                         <input 
                             type="password" 
