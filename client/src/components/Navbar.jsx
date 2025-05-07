@@ -20,93 +20,118 @@ const Navbar = () => {
     return (
         <div className="h-[60px] fixed top-0 w-full bg-white text-deepblack shadow-md">
             {/* Navbar Container */}
-            <nav className="flex items-center justify-evenly h-full">
+            <nav className="flex items-center md:justify-evenly h-full">
                 
+                {/* Website Logo */}
+                <Link to="/" className="flex ml-[5%] md:ml-0 items-center gap-[0.5rem] hover:text-lightorange">
+                    <img src="../images/popcorn.svg" alt="icon" className="w-[1.5rem] drop-shadow" />
+                    <h1 className="text-[1rem] font-semibold">
+                        Popcorn & Pages
+                    </h1>
+                </Link>
+
                 {/* Hamburger Menu */}
                 <button
-                    className="text-2xl mr-[2.5rem] md:hidden"
+                    className="text-2xl mr-[2.5rem] ml-auto md:hidden"
                     onClick={toggleMobileMenu}
                 >
                     {isMobileMenuOpen ? <IoMdClose /> : <GiHamburgerMenu />}
                 </button>
 
-                {/* Website Logo */}
-                <Link to="/" className="justify-center md:justify-start flex items-center gap-[0.4rem] md:gap-[0.5rem] cursor-pointer">
-                    <img src="../images/popcorn.svg" alt="icon" className="w-[1.5rem] md:w-[2rem] drop-shadow" />
-                    <h1 className="text-[1rem] md:text-[1.2rem] font-semibold">
-                        Popcorn & Pages
-                    </h1>
-                </Link>
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex gap-6 text-[1rem]">
-                    <Link to="/" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                <div className="hidden md:flex inline-flex gap-6 text-[1rem] font-semibold">
+                    <Link to="/" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Home
                     </Link>
-                    <Link to="/movies" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/movies" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Movies
                     </Link>
-                    <Link to="/tv-shows" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/tv-shows" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         TV Shows
                     </Link>
-                    <Link to="/books" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/books" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Books
                     </Link>
                 </div>
 
                 {/* Auth Buttons */}
-                <div className="md:flex gap-2 text-[1rem]">
+                <div className="hidden md:flex text-[1rem] font-semibold">
                     {isAuthenticated === null &&
-                        <span className="inline-flex font-semibold transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent">Loading...</span>
+                        <span className="inline-flex mx-[3.25rem]">Loading...</span>
                     }
-                    {isAuthenticated &&
-                        <>
-                            <Link to="/profile" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    {isAuthenticated && 
+                        <div>
+                            <Link to="/profile" className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                 My Profile
                             </Link>
                             <Link to="/">
-                                <button onClick={handleLogout} className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
+                                <button onClick={handleLogout} className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                     Logout
                                 </button>
                             </Link>
-                        </>
+                        </div> 
                     }
                     {isAuthenticated === false && 
-                        <>
+                        <div className="flex gap-5">
                             <Link to="/login">
-                                <button className="text-[0.8rem] md:text-[1rem] px-[0.75rem] py-[0.5rem] rounded-lg font-semibold hover:text-lightblue-darkest transition ease-in-out duration-100">
+                                <button className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                     Sign in
                                 </button>
                             </Link>
                             <Link to="/register">
-                                <button className="text-[0.8rem] md:text-[1rem] bg-lightorange-darker text-white px-[0.75rem] py-[0.5rem] rounded-lg font-semibold hover:bg-lightorange-darkest transition ease-in-out duration-100">
+                                <button className="px-[0.75rem] py-[0.5rem] bg-lightblue-darker text-white rounded-lg hover:bg-lightblue-darkest transition ease-in-out duration-100">
                                     Sign up
                                 </button>
                             </Link>
-                        </>
+                        </div>
                     }
                 </div>
             </nav>
 
             {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden absolute inset-x-0 top-[60px] pl-[0.5rem] bg-gray-100 shadow-md">
-                    <nav className="flex flex-col text-[0.8rem] gap-3 px-4 py-4">
-                        <Link to="/" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-transparent hover:border-b-lightorange">
-                            Home
+            <div className={`md:hidden absolute inset-x-0 top-[60px] pl-[0.5rem] bg-gray-50 shadow-md transition-opacity duration-50
+                ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+            `}>
+                <nav className="flex flex-col items-end text-[0.8rem] gap-3 px-[2.25rem] py-4 font-semibold">
+                    <Link to="/" className="hover:text-lightorange">
+                        Home
+                    </Link>
+                    <Link to="/movies" className="hover:text-lightorange">
+                        Movies
+                    </Link>
+                    <Link to="/tv-shows" className="hover:text-lightorange">
+                        TV Shows
+                    </Link>
+                    <Link to="/books" className="hover:text-lightorange">
+                        Books
+                    </Link>
+                    <hr className=""></hr>
+                    {/* Auth Buttons */}
+                    {isAuthenticated && <>
+                        <Link to="/profile" className="hover:text-lightorange">
+                            My Profile
                         </Link>
-                        <Link to="/movies" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-transparent hover:border-b-lightorange">
-                            Movies
+                        <Link to="/">
+                            <button onClick={handleLogout} className="hover:text-lightorange">
+                                Logout
+                            </button>
                         </Link>
-                        <Link to="/tv-shows" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-transparent hover:border-b-lightorange">
-                            TV Shows
+                    </> }
+                    {isAuthenticated === false && <>
+                        <Link to="/login">
+                            <button className="hover:text-lightorange">
+                                Sign in
+                            </button>
                         </Link>
-                        <Link to="/books" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-transparent hover:border-b-lightorange">
-                            Books
+                        <Link to="/register">
+                            <button className="hover:text-lightorange">
+                                Sign up
+                            </button>
                         </Link>
-                    </nav>
-                </div>
-            )}
+                    </> }
+                </nav>
+            </div>
         </div>
     );
 };
