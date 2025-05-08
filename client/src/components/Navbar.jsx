@@ -94,38 +94,38 @@ const Navbar = () => {
                 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
             `}>
                 <nav className="flex flex-col items-end text-[0.8rem] gap-3 px-[2.25rem] py-4 font-semibold">
-                    <Link to="/" className="hover:text-lightorange">
+                    <Link to="/" onClick={toggleMobileMenu} className="hover:text-lightorange">
                         Home
                     </Link>
-                    <Link to="/movies" className="hover:text-lightorange">
+                    <Link to="/movies" onClick={toggleMobileMenu} className="hover:text-lightorange">
                         Movies
                     </Link>
-                    <Link to="/tv-shows" className="hover:text-lightorange">
+                    <Link to="/tv-shows" onClick={toggleMobileMenu} className="hover:text-lightorange">
                         TV Shows
                     </Link>
-                    <Link to="/books" className="hover:text-lightorange">
+                    <Link to="/books" onClick={toggleMobileMenu} className="hover:text-lightorange">
                         Books
                     </Link>
-                    <hr className=""></hr>
+                    <hr/>
                     {/* Auth Buttons */}
                     {isAuthenticated && <>
-                        <Link to="/profile" className="hover:text-lightorange">
+                        <Link to="/profile" onClick={toggleMobileMenu} className="hover:text-lightorange">
                             My Profile
                         </Link>
                         <Link to="/">
-                            <button onClick={handleLogout} className="hover:text-lightorange">
+                            <button onClick={() => { handleLogout(), toggleMobileMenu() }} className="hover:text-lightorange">
                                 Logout
                             </button>
                         </Link>
                     </> }
                     {isAuthenticated === false && <>
                         <Link to="/login">
-                            <button className="hover:text-lightorange">
+                            <button onClick={toggleMobileMenu} className="hover:text-lightorange">
                                 Sign in
                             </button>
                         </Link>
                         <Link to="/register">
-                            <button className="hover:text-lightorange">
+                            <button onClick={toggleMobileMenu} className="hover:text-lightorange">
                                 Sign up
                             </button>
                         </Link>
