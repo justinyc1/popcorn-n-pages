@@ -18,7 +18,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className="h-[60px] fixed top-0 w-full bg-white text-deepblack shadow-md">
+        <div className="h-[60px] fixed top-0 w-full bg-white text-deepblack shadow-md z-20">
             {/* Navbar Container */}
             <nav className="flex items-center md:justify-evenly h-full">
                 
@@ -40,7 +40,7 @@ const Navbar = () => {
 
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex inline-flex gap-6 text-[1rem] font-semibold">
+                <div className="hidden md:flex gap-6 text-[1rem] font-semibold">
                     <Link to="/" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Home
                     </Link>

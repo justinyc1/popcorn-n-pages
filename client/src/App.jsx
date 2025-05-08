@@ -19,7 +19,7 @@ function App() {
       <AuthProvider>
         <Navbar />
         {/* <div className="main-content pt-14 min-h-screen bg-gradient-to-r from-lightorange-lightest/70 via-lightgreen-lightest/70 to-lightblue-lightest/70"> */}
-        <div className="main-content mt-[60px] bg-gray-200">
+        <div className="main-content mt-[60px] min-h-[calc(100vh-60px)] bg-gray-50">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
@@ -36,5 +36,3 @@ function App() {
 }
 
 export default App
-
-// #f8f4f4

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/UseAuth";
 import { apiUrl } from "../config";
 
@@ -120,10 +120,10 @@ const Login = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen"> {/* position of box in page */}
-            <div className="w-1/4 px-[1.5rem] py-[1.5rem] mb-40 min-w-[25rem] max-w-[95%] min-h-[20rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
-                <h1 className="text-2xl font-semibold text-center">Login</h1>
-                <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <div className="flex items-center justify-center transform min-h-[calc(100vh-60px)] -translate-y-[10%]"> {/* position of box in page */}
+            <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[25rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                <h1 className="text-2xl font-semibold text-center my-[0.75rem]">Sign in</h1>
+                <form onSubmit={handleSubmit}>
                     <div className="min-h-[1rem]"> {/* username */}
                         <label htmlFor="username" className="text-sm font-medium">Username:</label>
                         <input 
@@ -135,9 +135,11 @@ const Login = () => {
                             value={formData.username}
                             onChange={handleChange}
                         />
-                        {errors.username && <span className="text-sm text-red-500">{errors.username}</span>}
+                        <div className="min-h-[1.5rem]">
+                            {errors.username && <span className="text-[0.75rem] text-red-500">{errors.username}</span>}
+                        </div>
                     </div>
-                    <div className="min-h-[1rem]"> {/* password */}
+                    <div className="min-h-[1rem] pb-2"> {/* password */}
                         <label htmlFor="password" className="text-sm font-medium">Password:</label>
                         <input 
                             type="password" 
@@ -148,16 +150,23 @@ const Login = () => {
                             value={formData.password}
                             onChange={handleChange}
                         />
-                        {errors.password && <span className="text-sm text-red-500">{errors.password}</span>}
+                        <div className="min-h-[1.5rem]">
+                            {errors.password && <span className="text-[0.75rem] text-red-500">{errors.password}</span>}
+                        </div>
                     </div>
                     <button 
                         type="submit" 
                         disabled={isSubmitting} 
-                        className="w-full h-9 bg-blue-500 text-white font-medium rounded-md"
+                        className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
                     >
-                        {isSubmitting ? "Logging in..." : "Login"}    
+                        {isSubmitting ? "Signing in..." : "Sign in"}    
                     </button>
-                    {errors.server && <span className="text-sm text-red-500">{errors.server}</span>}
+                    <div className="min-h-[1.5rem]">
+                        {errors.server && <span className="text-[0.75rem] text-red-500">{errors.server}</span>}
+                    </div>
+                    <div className="text-[0.8rem] font-normal">
+                        Don&#39;t have an account? {<Link to="/register" className="text-lightblue-darker underline font-semibold">Sign up</Link>}
+                    </div>
                 </form>
             </div>
         </div>
