@@ -4,6 +4,7 @@ import Card from "../components/Card"
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_TASTEDIVE_KEY;
     
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedMedias, setSelectedMedias] = useState({
         book: false,
         movie: true,
@@ -36,6 +37,7 @@ const Home = () => {
     };
 
     const fetchSearch = async (searchInput, selectedMedias) => {
+        setIsSubmitting(true);
         // CHECK IF SAME QUERY AS PREVIOUS
         console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
         const medias = Object.keys(selectedMedias).filter((key) => {
@@ -60,21 +62,29 @@ const Home = () => {
             //Fetch images for each result
             const enrichedResults = await Promise.all(jsonResults.map(async (result) => {
                 let imageUrl = null;
-    
-                if (result.type === 'movie') {
-                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
-                    const tmdbData = await tmdbResponse.json();
-                    imageUrl = tmdbData.results[0]?.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
-                        : null;
-                } else if (result.type === 'book') {
+                if (result.mediaType === 'book') {
                     try {
                         const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
                         const booksData = await booksResponse.json();
+                        console.log(booksData);
                         imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || null;
                     } catch (e) {
                         console.log(`Failed to fetch image for book ${result.name}:` + e);
                     }
+                } else if (result.mediaType === 'movie') {
+                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
+                    const tmdbData = await tmdbResponse.json();
+                    console.log(tmdbData);
+                    imageUrl = tmdbData.results[0]?.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
+                        : null;
+                } else if (result.mediaType === 'show') {
+                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
+                    const tmdbData = await tmdbResponse.json();
+                    console.log(tmdbData);
+                    imageUrl = tmdbData.results[0]?.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
+                        : null;
                 }
     
                 return { ...result, imageUrl };
@@ -82,14 +92,15 @@ const Home = () => {
         
             setSearchResults(enrichedResults);
             console.log(enrichedResults); // DEBUG
-            // window.scrollTo({
-            //     top: 350,
-            //     behavior: 'smooth'
-            // });
+            window.scrollTo({
+                top: 800,
+                behavior: 'smooth'
+            });
             console.log("Success, displaying results");
         } catch (error) {
             console.error("Error ocurrewd while fetching search results: ", error);
         }
+        setIsSubmitting(false);
     }
 
     const testFunc = () => {
@@ -116,7 +127,7 @@ const Home = () => {
                             type="text"
                             ref={inputRef}
                             placeholder="Search recommendation for books, movies, or TV shows..."
-                            className="w-full py-3 px-4 text-[clamp(0.75rem,0.5rem+1vw,1rem)] justify-center rounded-full focus:outline-none"
+                            className="w-full py-3 px-4 text-[clamp(0.8rem,0.5rem+1vw,1rem)] justify-center rounded-full focus:outline-none"
                             onKeyDown={handleKeyDown}
                         />
                     </div>
@@ -158,10 +169,10 @@ const Home = () => {
 
                     {/* below buttons */}
                     <div className="default-content text-center">
-                        <button onClick={handleExplore} className="my-[3rem] px-[1.5rem] py-[0.75rem] text-[clamp(0.75rem,0.5rem+1vw,1.2rem)] font-semibold 
+                        <button onClick={handleExplore} disabled={isSubmitting} className="my-[3rem] px-[1.5rem] py-[0.75rem] text-[clamp(0.75rem,0.5rem+1vw,1.2rem)] font-semibold 
                                 bg-gradient-to-r from-lightorange-lighter/90 via-lightgreen-lighter/90 to-lightblue-lighter/90 text-white rounded-lg shadow-lg 
                                 hover:bg-gradient-to-r hover:from-lightorange hover:via-lightgreen hover:to-lightblue transition-all duration-300 ease-in-out will-change-transform hover:scale-105">
-                            Start Exploring
+                            {isSubmitting === true ? "Loading Results..." : "Start Exploring"}
                         </button>
                     </div>
                 </div>
@@ -171,7 +182,7 @@ const Home = () => {
             {searchResults.length > 0 && ( // only show if there is a query
                 <div className="p-6 flex-grow">
                     <h2 className="text-4xl font-semibold text-center mt-4 mb-8">Search Results</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mx-[4%] max-w-[92%] md:max-w-[100] gap-[2rem]">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 mx-auto md:max-w-[calc(384px+50%)] gap-[2rem]">
                         {searchResults && searchResults.map((result, index) => (
                             <Card
                                 key={index}
