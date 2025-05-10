@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-async function getRecommendstioFromGemini(mediaName,mediaType) {
+async function getRecommendations(mediaName,mediaType) {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
   const prompt = "return me a json object of 10 movies similar to harry potter, with the lead director, main actors, genre, rating, age rating, and summary";
   const result = await model.generateContent(prompt);
@@ -16,4 +16,4 @@ async function getRecommendstioFromGemini(mediaName,mediaType) {
 //how to update type with gemini (reading the documentation)
 }
 
-getRecommendstioFromGemini("Herry Potter","Books");
+getRecommendations("Harry Potter","Books");

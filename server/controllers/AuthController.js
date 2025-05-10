@@ -1,10 +1,5 @@
-import {
-    createNewUser,
-    findUserByUsername, 
-    getAccessToken, 
-    comparePassword, 
-    hashPassword 
-} from '../services/userService.js';
+import { createNewUser, findUserByUsername } from '../services/userService.js';
+import { getAccessToken, comparePassword, hashPassword } from '../services/authService.js';
 
 export const registerUser = async (req, res) => {
     try {

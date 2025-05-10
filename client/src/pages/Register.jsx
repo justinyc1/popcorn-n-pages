@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiUrl } from "../config";
 
 const Register = () => {
@@ -20,8 +21,22 @@ const Register = () => {
     // to for when account is created successfully
     const [showSuccess, setShowSuccess] = useState(false);
 
+    const [countdown, setCountdown] = useState(5);
+
     // to redirect user when sign up is successful
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (showSuccess && countdown > 0) {
+            const timer = setTimeout(() => {
+                setCountdown(countdown - 1);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+        if (showSuccess && countdown === 0) {
+            navigate("/login");
+        }
+    }, [showSuccess, countdown, navigate]);
 
     // update user input form as user enters information
     const handleChange = (e) => {
@@ -111,7 +126,9 @@ const Register = () => {
             if (response.status >= 200 && response.status < 300) { // success
                 console.log("Account created: " + response.data.message);
                 setShowSuccess(true);
-                setTimeout(() => navigate("/login"), 5000); // redirect user to home page
+                // setTimeout(() => navigate("/login"), 5000); // redirect user to home page
+                setCountdown(5);
+                
             }
 
         } catch (error) {
@@ -132,74 +149,93 @@ const Register = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">{/* position of box in page */}
-            <div className="w-1/4 p-6 mb-40 bg-white rounded-lg shadow-lg"> {/* properties of box */}
+        <>
+            <Helmet>
+                <title>Sign up - Popcorn & Pages</title>
+                <meta name="description" content="Create your free account today to get personalized recommendations." />
+            </Helmet>
+            <div className="flex items-center justify-center transform min-h-[calc(100vh-60px)] -translate-y-[10%]">{/* position of box in page */}
                 {!showSuccess ? 
-                <>
-                    <h1 className="text-2xl font-semibold text-center">Sign up</h1>
-                    <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-                        <div> {/* username */}
-                            <label htmlFor="username" className="text-sm font-medium">Username:</label>
-                            <input 
-                                type="text" 
-                                id="username" 
-                                name="username" 
-                                className="w-full h-9 border border-gray-300 rounded-md px-2" 
-                                autoComplete="off"
-                                value={formData.username}
-                                onChange={handleChange}
-                            />
-                            {errors.username && <span className="text-sm text-red-500">{errors.username}</span>}
+                    <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[30rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                        <h1 className="text-2xl font-semibold text-center my-[0.75rem]">Sign up</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className="min-h-[1rem]"> {/* username */}
+                                <label htmlFor="username" className="text-sm font-medium">Username:</label>
+                                <input 
+                                    type="text" 
+                                    id="username" 
+                                    name="username" 
+                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    autoComplete="off"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                />
+                                <div className="min-h-[1.5rem]">
+                                    {errors.username && <span className="text-sm text-red-500">{errors.username}</span>}
+                                </div>
+                            </div>
+                            <div className="min-h-[1rem]"> {/* displayName */}
+                                <label htmlFor="displayName" className="text-sm font-medium">Display Name:</label>
+                                <input 
+                                    type="text" 
+                                    id="displayName" 
+                                    name="displayName" 
+                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    autoComplete="off"
+                                    value={formData.displayName}
+                                    onChange={handleChange}
+                                />
+                                <div className="min-h-[1.5rem]">
+                                    {errors.displayName && <span className="text-sm text-red-500">{errors.displayName}</span>}
+                                </div>
+                            </div>
+                            <div className="min-h-[1rem] pb-2"> {/* password */}
+                                <label htmlFor="password" className="text-sm font-medium">Password:</label>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password" 
+                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    autoComplete="off"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                                <div className="min-h-[1.5rem]">
+                                    {errors.password && <span className="text-sm text-red-500">{errors.password}</span>}
+                                </div>
+                            </div>
+                            <button 
+                                type="submit" 
+                                disabled={isSubmitting} 
+                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
+                            >
+                                {isSubmitting ? "Signing up..." : "Sign Up"}    
+                            </button>
+                            <div className="min-h-[1.5rem]">
+                                {errors.server && <span className="text-sm text-red-500">{errors.server}</span>}
+                            </div>
+                            <div className="text-[0.8rem] font-normal">
+                                Already have an account? {<Link to="/login" className="text-lightblue-darkest underline font-semibold">Sign in</Link>}
+                            </div>
+                        </form>
+                    </div> : 
+                    <div className="max-w-[80%] xs:max-w-[calc(384px)] min-h-[10rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                        <h1 className="text-2xl my-[0.75rem] font-semibold text-center">Account created successfully!</h1>
+                        <div className="my-[2.5rem]"></div>   
+                        <h3 className="text-lg my-[1rem] font-semibold text-center">You will be automatically redirected to the Login page in {countdown} second{countdown !== 1 ? "s" : ""}...</h3>
+                        <div className="py-[1rem]">
+                            <button 
+                                onClick={() => navigate("/login")}
+                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
+                            >
+                                Continue to Login    
+                            </button>
                         </div>
-                        <div> {/* displayName */}
-                            <label htmlFor="displayName" className="text-sm font-medium">Display Name:</label>
-                            <input 
-                                type="text" 
-                                id="displayName" 
-                                name="displayName" 
-                                className="w-full h-9 border border-gray-300 rounded-md px-2" 
-                                autoComplete="off"
-                                value={formData.displayName}
-                                onChange={handleChange}
-                            />
-                            {errors.displayName && <span className="text-sm text-red-500">{errors.displayName}</span>}
-                        </div>
-                        <div> {/* password */}
-                            <label htmlFor="password" className="text-sm font-medium">Password:</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                className="w-full h-9 border border-gray-300 rounded-md px-2" 
-                                autoComplete="off"
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                            {errors.password && <span className="text-sm text-red-500">{errors.password}</span>}
-                        </div>
-                        <button 
-                            type="submit" 
-                            disabled={isSubmitting} 
-                            className="w-full h-9 bg-blue-500 text-white font-medium rounded-md"
-                        >
-                            {isSubmitting ? "Creating Account..." : "Sign Up"}    
-                        </button>
-                        {errors.server && <span className="text-sm text-red-500">{errors.server}</span>}
-                    </form>
-                </> : <>
-                    <h1 className="text-2xl py-6 font-semibold text-center">Account created successfully!</h1>
-                    <h3 className="text-xl py-6 font-semibold text-center">You will be automatically redirected to the Login page in 5 seconds...</h3>
-                    <button 
-                        onClick={() => navigate("/login")}
-                        className="w-full h-9 bg-blue-500 text-white font-medium rounded-md"
-                    >
-                        Continue to Login    
-                    </button>
-                </>
+                    </div>
                 }
             </div>
-        </div>
-    )
+        </>
+    );
 }
 
 export default Register;

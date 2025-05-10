@@ -1,225 +1,266 @@
-import { useState, useEffect } from "react";
-import Card from "../components/Card"
-// import dotenv from "dotenv";
+// import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
+import { Helmet } from 'react-helmet';
 // import { GoogleGenerativeAI } from "@google/generative-ai";
+// import axios from "axios";
+// import { apiUrl } from "../config";
+
+// const Card = React.lazy(() => import("../components/Card"));
+import Card from "../components/Card";
 
 const Home = () => {
     const apiKey = import.meta.env.VITE_API_TASTEDIVE_KEY;
-    const [results, setResults] = useState([]);
-    const [selectedMedia, setSelectedMedia] = useState('movie');
+    // const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    
+    // const geminiAI = new GoogleGenerativeAI(geminiKey);
+    
+    // const getRecommendations = async (mediaName, mediaType) => {
+    //     const model = geminiAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+    //     const prompt = `return me a json object, delimited by backticks, of 10 ${mediaType}s similar to ${mediaName}, with the lead director, main actors, genre, rating, age rating, and summary`;
+    //     const result = await model.generateContent(prompt);
+    //     const jsonResponse = (response) => {
+    //             const start = response.indexOf("[")-1;
+    //             const end = response.lastIndexOf("]")+1;
+    //             if (start !== -1 && end !== -1 && end > start) {
+    //                 return response.substring(start, end + 1);
+    //             }
+    //             return response;
+    //         }
 
-    // eslint-disable-next-line no-unused-vars
-    let prevSearchQuery = " ";
-    // const [search, setSearch] = useState('');
-
-    // const handleInput = (event) => {
-    //     setSearch(event.target.value);
-    //     console.log(search);
+    //     console.log(jsonResponse(result.response.text()));
+    //     return jsonResponse(result.response.text());
     // }
+    
+    // getRecommendations("Harry Potter","Books");
 
-    useEffect(() => {
-        const searchInput = document.querySelector('#search-input');
-        if (searchInput) {
-            const handleKeyPress = function (e) {
-                if (searchInput.value.length !== 0 && e.key === 'Enter') { 
-                    console.log("Search input: " + searchInput.value);
-                    // fetchSearch(searchInput.value);
-                    // if (searchInput == prevSearchQuery) {
-                    //     console.log("Same search input, will not fetch again.");
-                    // } else {
-                        fetchSearch(searchInput.value, selectedMedia);    
-                    // }
-                    // prevSearchQuery = searchInput;
-                }
-            };
-            searchInput.addEventListener("keypress", handleKeyPress);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [selectedMedias, setSelectedMedias] = useState({
+        book: false,
+        movie: true,
+        show: false,
+    });
+    const [searchResults, setSearchResults] = useState([]);
+    const inputRef = useRef();
+    // const [inputMedia, setInputMedia] = useState(null);
 
-            // Clean up the event listener when the component unmounts
-            return () => {
-                searchInput.removeEventListener("keypress", handleKeyPress);
-                // fetchSearch(searchInput.value);
-                // if (searchInput == prevSearchQuery) {
-                //     console.log("Same query, will not fetch again.");
-                // } else {
-                    fetchSearch(searchInput.value, selectedMedia);    
-                // }
-                // prevSearchQuery = searchInput;
-            };
+    // when fetchSearch() when Enter key is pressed
+    const handleKeyDown = (e) => {
+        if (inputRef.current.value.trim().length !== 0) return;
+        if (e.key === "Enter") {
+            fetchSearch(inputRef.current.value, selectedMedias);
         }
-    }, []); // Empty dependency array to run only once on mount
+        
+    }
 
-    //for Start Exploring button
+    // for "Start Exploring" button
     const handleExplore = () => {
-        const searchInput = document.querySelector('#search-input');
-        if (searchInput && searchInput.value.trim().length > 0) {
-            // if (searchInput == prevSearchQuery) {
-            //     console.log("Same query, will not fetch again.");
-            // } else {
-                fetchSearch(searchInput.value, selectedMedia);    
-            // }
-            // prevSearchQuery = searchInput;
-        } else {
-            console.log("Please enter a search term.");
+        if (inputRef.current.value.trim().length !== 0) {
+            fetchSearch(inputRef.current.value, selectedMedias);
         }
     };
-    //dotenv.config();
-    // const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-    // async function run() {
-    //   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    //   const prompt = "give me similar content";
-    //   const result = await model.generateContent(prompt);
-    //   const response = await result.response;
-    //   const text = response.text();
-    //   console.log(text);
-    // }
-    // run();
 
-    async function fetchSearch(input, type) {
-        if (input.length == 0) return;
-        // if (input == prevSearchQuery) {
-        //     console.log("Same search input, will not query the input again");
-        //     return;
-        // }
-        console.log(`Fetching data for search query: ${input}`);
-        prevSearchQuery = input;
-        if (input.length === 0) return;
+    const handleMediaChange = (e) => {
+        const changedMedia = e.target.value;
+
+        setSelectedMedias((prevData) => ({
+            ...prevData,
+            [changedMedia]: !prevData[changedMedia],
+        }));
+    };
+
+    // const newFetch = (selectedMedias, searchInput) => {
+    //     axios.get(
+    //         `${apiUrl}/media/recommend`,
+    //         {
+    //             params: { // .query
+    //                 selectedMedias: selectedMedias,
+    //                 searchInput: searchInput
+    //             }
+    //         },
+    //         {
+    //             withCredentials: true
+    //         }
+    //     );
+    // }
+
+    const fetchSearch = async (searchInput, selectedMedias) => {
+        setIsSubmitting(true);
+        // CHECK IF SAME QUERY AS PREVIOUS
+        console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
+        const medias = Object.keys(selectedMedias).filter((key) => {
+            return selectedMedias[key];
+        });
+
         try {
-            console.log("selected media in fetchSearch(): " + selectedMedia);
-            console.log("type in fetchSearch(): " + type);
-            const tasteDiveResponse = await fetch(`/api/similar?q=${input}&type=${type}&info=1&k=${apiKey}`);
-            const tasteDiveData = await tasteDiveResponse.json();
-            const results = tasteDiveData.similar.results;
-    
+            const allResults = await Promise.all(
+                medias.map(async (mediaType) => {
+                    console.log("fetching for " + mediaType);
+                    const tasteDiveResponse = await fetch(`/api/similar?q=${searchInput}&type=${mediaType}&info=1&k=${apiKey}`);
+                    const tasteDiveData = await tasteDiveResponse.json();
+                    tasteDiveData.similar.results.forEach((result) => {
+                        result.mediaType = mediaType;
+                    });
+                    return tasteDiveData.similar.results;
+                })
+            );
+
+            const jsonResults = allResults.flat();
+
             //Fetch images for each result
-            const enrichedResults = await Promise.all(results.map(async (result) => {
+            const enrichedResults = await Promise.all(jsonResults.map(async (result) => {
                 let imageUrl = null;
-    
-                if (result.type === 'movie') {
-                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
-                    const tmdbData = await tmdbResponse.json();
-                    imageUrl = tmdbData.results[0]?.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
-                        : null;
-                } else if (result.type === 'book') {
+                let id = null;
+                if (result.mediaType === 'book') {
                     try {
                         const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
                         const booksData = await booksResponse.json();
-                        imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || null;
+                        console.log(result.name, booksData);
+                        id = booksData.items[0]?.id;
+                        // imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || "none";
+                        imageUrl = `https://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=2`;
+
+                        // const booksResponse = await fetch(`https://openlibrary.org/search.json?q=${result.name}`);
+                        // const booksData = await booksResponse.json();
+                        // console.log(result.name, booksData);
+                        // // id = booksData.docs.;
+                        // imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || "none";
+                        // imageUrl = `https://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=2`;
                     } catch (e) {
                         console.log(`Failed to fetch image for book ${result.name}:` + e);
                     }
+                } else if (result.mediaType === 'movie') {
+                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
+                    const tmdbData = await tmdbResponse.json();
+                    console.log(tmdbData);
+                    id = tmdbData.results[0]?.id;
+                    imageUrl = tmdbData.results[0]?.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
+                        : null;
+                } else if (result.mediaType === 'show') {
+                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
+                    const tmdbData = await tmdbResponse.json();
+                    console.log(tmdbData);
+                    id = tmdbData.results[0]?.id;
+                    imageUrl = tmdbData.results[0]?.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
+                        : null;
                 }
     
                 return { ...result, imageUrl };
             }));
-    
-            setResults(enrichedResults);
+        
+            setSearchResults(enrichedResults);
+            console.log(enrichedResults); // DEBUG
             window.scrollTo({
-                top: 350,
+                top: 800,
                 behavior: 'smooth'
-              });
+            });
             console.log("Success, displaying results");
         } catch (error) {
-            console.error("Error while fetching search results:", error);
+            console.error("Error ocurrewd while fetching search results: ", error);
         }
+        setIsSubmitting(false);
     }
 
-    const handleMediaChange = (event) => {
-        setSelectedMedia(event.target.value);
-        console.log("selected media in handleMediaChange(): " + event.target.value);
-        console.log(selectedMedia);
-
-    };
+    // const testFunc = () => {
+    //     console.log(inputRef.current.value);
+    // }
 
     return (
-        <div className="bg-gradient-to-r text-gray-800 flex flex-col">
-            
-            {/* Search and Main Section */}
-            <div className="bg-white bg-opacity-50">
-                <div className="flex-1 flex flex-col my-40 items-center justify-center">
-                    <p className="text-6xl font-semibold text-gray-700">Discover your next fav.</p>
-                </div>
-                {/* <div className="flex-1 flex flex-col pb-16 items-center justify-center bg-white bg-opacity-50 shadow-2xl shadow-white/70"> */}
-                <div className="flex-1 flex flex-col pb-32 items-center justify-center ">
-                    <input
-                        id="search-input"
-                        type="text"
-                        placeholder="Search recommendation for movies, shows, or books..."
-                        className="w-full lg:w-1/2 py-3 px-4 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-lightblue-lightest transition"
-                        // onChange={(event) => handleInput(event)}
-                    />
-                    
-                    {/* buttons */}
-                    
-                    <div className="my-2">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '10px' }}>
-                            <h2 style={{ margin: 0, whiteSpace: 'nowrap'}}>Select A Media Type:</h2>
+        <>
+            <Helmet>
+                <title>Popcorn & Pages</title>
+                <meta name="description" content="Get recommendations for movies, TV shows, and books tailored for you." />
+            </Helmet>
+            <div className="flex flex-col text-deepblack min-h-[calc(100vh-60px)]">
+                <div>
+                    {/* Title */}
+                    <div className="flex-1 flex flex-col my-[clamp(4rem,4rem+5vw,10rem)] items-center justify-center text-center">
+                        <span className="text-[clamp(2rem,1.75rem+1vw,3rem)] font-semibold text-deepblack">
+                            <h1>Your next favorite, tailored for you.</h1>
+                            {/* <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span> */}
+                        </span>
+                        {/* <button onClick={testFunc}>TEST</button> */}
+                    </div>
+                    {/* Search Container */}
+                    <div className="flex-1 flex flex-col pb-32 items-center justify-center">
+                        {/* Search Bar */}
+                        <div className="w-[95%] xs:max-w-[calc(360px+20%)] text-center p-px rounded-full bg-gradient-to-r from-lightorange-lightest via-lightgreen-lightest to-lightblue-lightest focus-within:bg-gradient-to-r">
+                            <input
+                                id="search-input"
+                                type="text"
+                                ref={inputRef}
+                                placeholder="Enter movies, TV shows, or books for recommendations..."
+                                className="w-full py-3 px-4 text-[clamp(0.8rem,0.5rem+1vw,1rem)] justify-center rounded-full focus:outline-none"
+                                onKeyDown={handleKeyDown}
+                            />
+                        </div>
+                        
+                        {/* Buttons */}
+                        <div className="my-[1rem] text-[clamp(0.75rem,0.5rem+1vw,1rem)] flex align-center gap-[clamp(0.5rem,0.5rem+1vw,1rem)]">
+                            <label className="">Media types:</label>
 
-                            <form id="media-form" style={{ display: 'flex', gap: '15px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <form className="flex gap-[1rem]">
+                                <label className="flex align-center gap-[clamp(0.1rem,0.25rem+1vw,0.25rem)] accent-lightblue-lightest">
                                 <input 
-                                    type="radio" 
-                                    name="media" 
-                                    value="movie" 
-                                    checked={selectedMedia === 'movie'}
-                                    onChange={handleMediaChange}
-                                />
-                                Movies
-                                </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <input 
-                                    type="radio" 
-                                    name="media" 
+                                    type="checkbox" 
                                     value="book" 
-                                    checked={selectedMedia === 'book'}
+                                    checked={selectedMedias.book}
                                     onChange={handleMediaChange}
                                 />
                                 Books
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <label className="flex align-center gap-[clamp(0.1rem,0.1rem+1vw,0.25rem)] accent-lightblue-lightest">
                                 <input 
-                                    type="radio" 
-                                    name="media" 
+                                    type="checkbox" 
+                                    value="movie" 
+                                    checked={selectedMedias.movie}
+                                    onChange={handleMediaChange}
+                                />
+                                Movies
+                                </label>
+                                <label className="flex align-center gap-[clamp(0.1rem,0.1rem+1vw,0.25rem)] accent-lightblue-lightest">
+                                <input 
+                                    type="checkbox" 
                                     value="show" 
-                                    checked={selectedMedia === 'show'}
+                                    checked={selectedMedias.show}
                                     onChange={handleMediaChange}
                                 />
                                 TV Shows
                                 </label>
                             </form>
                         </div>
-                    </div>
 
-                    {/* below buttons */}
-                    <div className="default-content mt-16 text-center">
-                        <p className="text-gray-700 text-lg mt-2 mb-2">
-                            Explore top recommendations, reviews, and more!
-                        </p>
-                        <button onClick={handleExplore} className="mt-6 px-6 py-3 text-xl font-semibold bg-gradient-to-r from-lightorange-lightest/80 via-lightgreen-lightest/80 to-lightblue-lightest/80 text-white rounded-lg shadow-lg hover:bg-gradient-to-r hover:from-lightorange hover:via-lightgreen hover:to-lightblue transition-all duration-300 ease-in-out transform hover:scale-105">
-                            Start Exploring
-                        </button>
+                        {/* below buttons */}
+                        <div className="default-content text-center">
+                            <button onClick={handleExplore} disabled={isSubmitting} className="my-[3rem] px-[1.5rem] py-[0.75rem] text-[clamp(0.75rem,0.5rem+1vw,1.2rem)] font-semibold 
+                                    bg-gradient-to-r from-lightorange-lighter/90 via-lightgreen-lighter/90 to-lightblue-lighter/90 text-white rounded-lg shadow-lg 
+                                    hover:bg-gradient-to-r hover:from-lightorange hover:via-lightgreen hover:to-lightblue transition-all duration-300 ease-in-out will-change-transform hover:scale-105">
+                                {isSubmitting === true ? "Loading Results..." : "Start Exploring"}
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                {/* Search Results */}
+                {searchResults.length > 0 && ( // only show if there is a query
+                    <div className="p-6 flex-grow">
+                        <h2 className="text-4xl font-semibold text-center mt-4 mb-8">Search Results</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 mx-auto md:max-w-[calc(384px+50%)] gap-[2rem]">
+                            {searchResults && searchResults.map((result, index) => (
+                                <Card
+                                    key={index}
+                                    // id={result.id}
+                                    name={result.name}
+                                    type={result.mediaType}
+                                    imageUrl={result.imageUrl}  // Passing imageUrl here
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
-
-            {/* Search Results */}
-            {results.length > 0 && ( // only show if there is a query
-                <div className="p-6 flex-grow">
-                    <h2 className="text-4xl font-semibold text-gray-700 text-center mt-4 mb-8">Search Results</h2>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {results && results.map((result, index) => (
-                            <Card
-                                key={index}
-                                name={result.name}
-                                type={result.type}
-                                imageUrl={result.imageUrl}  // Passing imageUrl here
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
-
-        </div>
+        </>
     );
 };
 

@@ -1,29 +1,36 @@
+import { Helmet } from "react-helmet";
+
 const About = () => {
     return (
         <>
-            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 pt-[100px]">
-                <header>
-                    <h1 className="text-3xl font-bold">About Us</h1>
-                </header>
-                <main className="flex-1 w-full max-w-4xl bg-white shadow-md rounded-lg p-8 mt-8">
-                    <section className="mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-                        <p className="text-gray-700">
-                            Our mission is to create a community-driven platform that fosters connections between users who share interests in movies, TV shows, and books. By integrating recommendations across these mediums, Popcorn & Pages seeks to enhance discovery, promote diverse tastes, and encourage insightful discussions within a unified app experience.
-
-
-                        </p>
-                    </section>
-                    <section className="mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Our Team</h2>
-                        <p className="text-gray-700">
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                    </section>
+            <Helmet>
+                <title>About Us - Popcorn & Pages</title>
+                <meta name="description" content="Get recommendations for movies, TV shows, and books tailored for you." />
+            </Helmet>
+            <div className="flex flex-col items-center justify-center text-deepblack min-h-[calc(100vh-60px)]">
+                <main className="max-w-[90%] xs:max-w-[calc(240px+40%)] bg-white shadow-md rounded-lg px-[3rem] py-[4rem]">
+                    <h1 className="text-[clamp(1rem,1.5rem+1vw,2rem)] text-center font-semibold">About Us</h1>
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-                        <p className="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        <h2 className="text-[clamp(1rem,1rem+1vw,1.5rem)] font-semibold mt-[1.5rem] mb-[1rem]">Popcorn & Pages</h2>
+                        <p className="text-[clamp(0.75rem,0.5rem+1vw,1rem)]">
+                            Popcorn & Pages is a personal project that was built to learn and explore full-stack development.
+                        </p>
+                        <h2 className="text-[clamp(1rem,1rem+1vw,1.5rem)] font-semibold mt-[1.5rem] mb-[1rem]">Motivation</h2>
+                        <p className="text-[clamp(0.75rem,0.5rem+1vw,1rem)]">
+                            The motivation behind Popcorn & Pages is to bridge the gap between different media forms, such as books 
+                            and movies, by having a cross-media search feature that would allow people to explore different mediums 
+                            through common themes. As opposed to using search engines to looking up similar media, Popcorn & Pages 
+                            streamlines the process by tailoring recommendations by taking in consideration of each user’s 
+                            preferences and media history to ensure each recommendation is worthy of becoming their next favorite.
+                        </p>
+                        <h2 className="text-[clamp(1rem,1rem+1vw,1.5rem)] font-semibold mt-[1.5rem] mb-[1rem]">Technology Used</h2>
+                        <p className="text-[clamp(0.75rem,0.5rem+1vw,1rem)]">
+                        Vite, React, Tailwind CSS, Node.js, Express, Sequelize, Supabase, Axios, Insomnia, Google Gemini, and open APIs such as TMDB.
+                        </p>
+                        <h2 className="text-[clamp(1rem,1rem+1vw,1.5rem)] font-semibold mt-[1.5rem] mb-[1rem]">Other</h2>
+                        <p className="text-[clamp(0.75rem,0.5rem+1vw,1rem)]">
+                            For more details, feel free to check out the GitHub repository 
+                            <a href="https://github.com/justinyc1/popcorn-n-pages" className="text-blue-500 underline">here</a>.
                         </p>
                     </section>
                 </main>

@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { IoMdClose } from "react-icons/io";
+import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
+import { IoMdClose } from "@react-icons/all-files/io/IoMdClose";
 import { useAuth } from "../auth/UseAuth";
 
 const Navbar = () => {
@@ -18,123 +17,127 @@ const Navbar = () => {
     }
 
     return (
-        <div className="h-[60px] fixed inset-x-0 top-0 w-full z-50 bg-gradient-to-r from-lightorange via-lightgreen to-lightblue-lighter text-white shadow-lg">
-            {/* Navbar Container */}
-            <nav className="container mx-96 flex items-center justify-between px-10 h-full">
-                {/* Left Section: Hamburger Menu */}
+        <div className="h-[60px] fixed top-0 w-full bg-white text-deepblack shadow-md z-20">
+            {/* Container */}
+            <nav className="flex items-center md:justify-evenly h-full">
+                
+                {/* Logo */}
+                <Link to="/" className="flex ml-[5%] md:ml-0 items-center gap-[0.5rem] hover:text-lightorange">
+                    <img src="../images/popcorn.svg" alt="icon" className="w-[1.5rem] h-[1.5rem] drop-shadow" />
+                    <h1 className="text-[1rem] font-semibold">
+                        Popcorn & Pages
+                    </h1>
+                </Link>
+
+                {/* Hamburger */}
                 <button
-                    className="text-2xl lg:hidden"
+                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                    className="text-2xl mr-[2.5rem] ml-auto md:hidden"
                     onClick={toggleMobileMenu}
                 >
                     {isMobileMenuOpen ? <IoMdClose /> : <GiHamburgerMenu />}
                 </button>
 
-                {/* Center Section: Logo with Emojis */}
-                <Link to="/" className="flex items-center gap-2 cursor-pointer">
-                    {/* <span className="text-[2rem]">🍿📚</span> */}
-                    <img src="../images/popcorn.svg" alt="icon" width="36"/>
-                    <h1 className="text-[1.8rem] font-bold leading-8 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.6)] tracking-wide">
-                        Popcorn & Pages
-                    </h1>
-                </Link>
 
-                {/* Right Section: Navigation Links */}
-                <div className="hidden lg:flex gap-8 text-[18px]">
-                    <Link to="/" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                {/* Nav */}
+                <div className="hidden md:flex gap-6 text-[1rem] font-semibold">
+                    <Link to="/" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Home
                     </Link>
-                    <Link to="/movies" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/movies" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Movies
                     </Link>
-                    <Link to="/tv-shows" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/tv-shows" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         TV Shows
                     </Link>
-                    <Link to="/books" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    <Link to="/books" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
                         Books
                     </Link>
+                    <Link to="/about" className="hover:text-lightorange transition-opacity border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                        About
+                    </Link>
+                </div>
+
+                {/* Auth */}
+                <div className="hidden md:flex text-[1rem] font-semibold">
                     {isAuthenticated === null &&
-                        <span className="inline-flex font-semibold transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent">Loading...</span>
+                        <span className="inline-flex mx-[3.25rem]">Loading...</span>
                     }
-                    {isAuthenticated &&
-                        <>
-                            <Link to="/profile" className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
+                    {isAuthenticated && 
+                        <div>
+                            <Link to="/profile" className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                 My Profile
                             </Link>
                             <Link to="/">
-                                <button onClick={handleLogout} className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
+                                <button onClick={handleLogout} className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                     Logout
                                 </button>
                             </Link>
-                        </>
+                        </div> 
                     }
                     {isAuthenticated === false && 
-                        <>
+                        <div className="flex gap-5">
                             <Link to="/login">
-                                <button className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
+                                <button className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
                                     Sign in
                                 </button>
                             </Link>
                             <Link to="/register">
-                                <button className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
-                                    Create an account
+                                <button className="px-[0.75rem] py-[0.5rem] bg-lightblue-darker text-white rounded-lg hover:bg-lightblue-darkest transition ease-in-out duration-100">
+                                    Sign up
                                 </button>
                             </Link>
-                        </>
+                        </div>
                     }
                 </div>
             </nav>
 
-            {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-                <div className="lg:hidden absolute inset-x-0 top-[70px] bg-teal-700 text-white shadow-md">
-                    <nav className="flex flex-col gap-4 p-4">
-                        <Link to="/"  className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
-                            Home
+            {/* Mobile */}
+            <div className={`md:hidden absolute inset-x-0 top-[60px] pl-[0.5rem] bg-gray-50 shadow-md transition-opacity duration-50
+                ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+            `}>
+                <nav className="flex flex-col items-end text-[0.8rem] gap-3 px-[2.25rem] py-4 font-semibold">
+                    <Link to="/" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                        Home
+                    </Link>
+                    <Link to="/movies" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                        Movies
+                    </Link>
+                    <Link to="/tv-shows" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                        TV Shows
+                    </Link>
+                    <Link to="/books" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                        Books
+                    </Link>
+                    <Link to="/about" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                        About
+                    </Link>
+                    <hr/>
+                    {/* Auth */}
+                    {isAuthenticated && <>
+                        <Link to="/profile" onClick={toggleMobileMenu} className="hover:text-lightorange">
+                            My Profile
                         </Link>
-                        <Link to="/movies"  className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
-                            Movies
+                        <Link to="/">
+                            <button onClick={() => { handleLogout(), toggleMobileMenu() }} className="hover:text-lightorange">
+                                Logout
+                            </button>
                         </Link>
-                        <Link to="/tv-shows"  className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
-                            TV Shows
+                    </> }
+                    {isAuthenticated === false && <>
+                        <Link to="/login">
+                            <button onClick={toggleMobileMenu} className="hover:text-lightorange">
+                                Sign in
+                            </button>
                         </Link>
-                        <Link to="/books"  className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
-                            Books
+                        <Link to="/register">
+                            <button onClick={toggleMobileMenu} className="hover:text-lightorange">
+                                Sign up
+                            </button>
                         </Link>
-                        <Link to="/community"  className="inline-flex font-semibold hover:text-lightorange transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent hover:border-b-lightorange">
-                            Community
-                        </Link>
-                        {isAuthenticated === null &&
-                            <span className="inline-flex font-semibold transition-opacity cursor-pointer border-t-4 border-b-2 border-transparent">Loading...</span>
-                        }
-                        {isAuthenticated &&
-                            <>
-                                <Link to="/profile" className="border border-white px-4 py-1 rounded hover:bg-white hover:text-teal-700 transition ease-in-out duration-200">
-                                    My Profile
-                                </Link>
-                                <Link to="/">
-                                    <button onClick={handleLogout} className="border border-white px-4 py-1 rounded font-semibold hover:bg-lightorange-lightest hover:text-lightblue-darker transition ease-in-out duration-200">
-                                        Logout
-                                    </button>
-                                </Link>
-                            </>
-                        }
-                        {isAuthenticated === false &&
-                            <>
-                                <Link to="/login">
-                                    <button className="border border-white px-4 py-1 rounded hover:bg-white hover:text-teal-700 transition ease-in-out duration-200">
-                                        Login
-                                    </button>
-                                </Link>
-                                <Link to="/register">
-                                    <button className="border border-white px-4 py-1 rounded hover:bg-white hover:text-teal-700 transition ease-in-out duration-200">
-                                        Sign Up
-                                    </button>
-                                </Link>
-                            </>
-                        }
-                    </nav>
-                </div>
-            )}
+                    </> }
+                </nav>
+            </div>
         </div>
     );
 };
