@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
-import { IoMdClose } from "@react-icons/all-files/io/IoMdClose";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdClose } from "@react-icons/io";
 import { useAuth } from "../auth/UseAuth";
 
 const Navbar = () => {
