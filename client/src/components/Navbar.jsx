@@ -23,7 +23,7 @@ const Navbar = () => {
                 
                 {/* Logo */}
                 <Link to="/" className="flex ml-[5%] md:ml-0 items-center gap-[0.5rem] hover:text-lightorange">
-                    <img src="../images/popcorn.svg" alt="icon" className="w-[1.5rem] h-[1.5rem] drop-shadow" />
+                    <img src="../../public/images/popcorn.svg" alt="icon" className="w-[1.5rem] h-[1.5rem] drop-shadow" />
                     <h1 className="text-[1rem] font-semibold">
                         Popcorn & Pages
                     </h1>
