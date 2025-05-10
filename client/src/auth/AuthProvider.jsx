@@ -13,16 +13,34 @@ export const AuthProvider = ({ children }) => {
         const checkAuth = async () => {
             try {
                 // check jwt in the backend, return the user (valid) or 401 (invalid)
-                await axios.get(
+                const response = await axios.get(
                     `${apiUrl}/auth/auth`,
                     {
                         withCredentials: true
                     }
                 );
-                setIsAuthenticated(true);
+
+                if (response.status == 200) { // success
+                    // console.log("Auth success!");
+                    setIsAuthenticated(true);
+                }
+                // setIsAuthenticated(true);
             } catch (error) {
-                if (error.response.status === 401)
-                setIsAuthenticated(false);
+                const serverError = error.response?.data?.error;
+                const status = error.response?.status;
+    
+                console.log("Status " + status + ", Server error: " + serverError);
+                console.log("error status: " + status);
+    
+                if (status === 401) {
+                    console.log("No token provided.");
+                    setIsAuthenticated(false);
+                } else if (status === 501) {
+                    console.log("Invalid token.");
+                    setIsAuthenticated(false);
+                }
+                // if (error.response.status === 401)
+                // setIsAuthenticated(false);
             }
         };
         checkAuth();
