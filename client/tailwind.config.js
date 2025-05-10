@@ -25,6 +25,8 @@ export default {
           DEFAULT: '#34c9ff',
           darker: '#29bdf2',
           darkest: '#1ea7d9',
+          darkestA: '#1689c7',
+          darkestB: '#1178bd',
         },
         lightgreen: {
           lightest: '#C3D3C1',

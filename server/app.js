@@ -3,7 +3,7 @@ import morgan from "morgan";
 import process from "node:process";
 import path from "node:path";
 import { sequelize } from "./models/index.js";
-import userRoutes from './routes/users.js';
+import apiRouter from './routes/index.js';
 import cors from "cors";
 import cookieParser from "cookie-parser"
 
@@ -19,8 +19,7 @@ app.use(cors({
 })); // whitelist api connections
 
 // routes
-app.use('/auth', userRoutes);
-
+app.use('/api', apiRouter);
 
 // add http request logging to help us debug and audit app use
 const logFormat = app.get("env") === "production" ? "combined" : "dev";
@@ -32,13 +31,13 @@ app.use(morgan(logFormat));
 // for production use, we serve the static react build folder
 if (process.env.NODE_ENV === "production") {
   app.use(
-    express.static(path.join(import.meta.dirname, "../frontend-client/dist"))
+    express.static(path.join(import.meta.dirname, "../client/dist"))
   );
 
   // all unknown routes should be handed to our react app
   app.get("*", function (req, res) {
     res.sendFile(
-      path.join(import.meta.dirname, "../frontend-client/dist", "index.html")
+      path.join(import.meta.dirname, "../client/dist", "index.html")
     );
   });
 }

@@ -1,7 +1,15 @@
+import { Helmet } from "react-helmet";
+
 const Search = () => {
     return (
-        <div>
-        </div>
+        <>
+            <Helmet>
+                <title>Search - Popcorn & Pages</title>
+                <meta name="description" content="Search and receive your personalized recommendations." />
+            </Helmet>
+            <div>
+            </div>
+        </>
     )
 }
 

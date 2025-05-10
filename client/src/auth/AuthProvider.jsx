@@ -20,7 +20,8 @@ export const AuthProvider = ({ children }) => {
                     }
                 );
                 setIsAuthenticated(true);
-            } catch {
+            } catch (error) {
+                if (error.response.status === 401)
                 setIsAuthenticated(false);
             }
         };
