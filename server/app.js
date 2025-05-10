@@ -28,19 +28,19 @@ app.use(morgan(logFormat));
 // load our controller routes at /api
 // app.use("/api", apiRouter);
 
-// for production use, we serve the static react build folder
-if (process.env.NODE_ENV === "production") {
-  app.use(
-    express.static(path.join(import.meta.dirname, "../client/dist"))
-  );
+// // for production use, we serve the static react build folder
+// if (process.env.NODE_ENV === "production") {
+//   app.use(
+//     express.static(path.join(import.meta.dirname, "../client/dist"))
+//   );
 
-  // all unknown routes should be handed to our react app
-  app.get("*", function (req, res) {
-    res.sendFile(
-      path.join(import.meta.dirname, "../client/dist", "index.html")
-    );
-  });
-}
+//   // all unknown routes should be handed to our react app
+//   app.get("*", function (req, res) {
+//     res.sendFile(
+//       path.join(import.meta.dirname, "../client/dist", "index.html")
+//     );
+//   });
+// }
 
 // 404 route
 app.use((req, res) => {
