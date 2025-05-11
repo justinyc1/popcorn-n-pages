@@ -1,38 +1,11 @@
-// import React, { useState, useRef } from "react";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Helmet } from 'react-helmet';
-// import { GoogleGenerativeAI } from "@google/generative-ai";
-// import axios from "axios";
-// import { apiUrl } from "../config";
+import axios from "axios";
+import { apiUrl } from "../config";
 
-// const Card = React.lazy(() => import("../components/Card"));
-import Card from "../components/Card";
+const Card = React.lazy(() => import("../components/Card"));
 
 const Home = () => {
-    const apiKey = import.meta.env.VITE_API_TASTEDIVE_KEY;
-    // const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    
-    // const geminiAI = new GoogleGenerativeAI(geminiKey);
-    
-    // const getRecommendations = async (mediaName, mediaType) => {
-    //     const model = geminiAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
-    //     const prompt = `return me a json object, delimited by backticks, of 10 ${mediaType}s similar to ${mediaName}, with the lead director, main actors, genre, rating, age rating, and summary`;
-    //     const result = await model.generateContent(prompt);
-    //     const jsonResponse = (response) => {
-    //             const start = response.indexOf("[")-1;
-    //             const end = response.lastIndexOf("]")+1;
-    //             if (start !== -1 && end !== -1 && end > start) {
-    //                 return response.substring(start, end + 1);
-    //             }
-    //             return response;
-    //         }
-
-    //     console.log(jsonResponse(result.response.text()));
-    //     return jsonResponse(result.response.text());
-    // }
-    
-    // getRecommendations("Harry Potter","Books");
-
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedMedias, setSelectedMedias] = useState({
         book: false,
@@ -41,7 +14,7 @@ const Home = () => {
     });
     const [searchResults, setSearchResults] = useState([]);
     const inputRef = useRef();
-    // const [inputMedia, setInputMedia] = useState(null);
+    const [prevQuery, setPrevQuery] = useState("");
 
     // when fetchSearch() when Enter key is pressed
     const handleKeyDown = (e) => {
@@ -68,96 +41,36 @@ const Home = () => {
         }));
     };
 
-    // const newFetch = (selectedMedias, searchInput) => {
-    //     axios.get(
-    //         `${apiUrl}/media/recommend`,
-    //         {
-    //             params: { // .query
-    //                 selectedMedias: selectedMedias,
-    //                 searchInput: searchInput
-    //             }
-    //         },
-    //         {
-    //             withCredentials: true
-    //         }
-    //     );
-    // }
-
     const fetchSearch = async (searchInput, selectedMedias) => {
         setIsSubmitting(true);
-        // CHECK IF SAME QUERY AS PREVIOUS
-        console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
-        const medias = Object.keys(selectedMedias).filter((key) => {
-            return selectedMedias[key];
-        });
+        if (searchInput !== prevQuery) {
+            console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
-        try {
-            const allResults = await Promise.all(
-                medias.map(async (mediaType) => {
-                    console.log("fetching for " + mediaType);
-                    const tasteDiveResponse = await fetch(`https://tastedive.com/api/similar?q=${searchInput}&type=${mediaType}&info=1&k=${apiKey}`);
-                    const tasteDiveData = await tasteDiveResponse.json();
-                    tasteDiveData.similar.results.forEach((result) => {
-                        result.mediaType = mediaType;
-                    });
-                    return tasteDiveData.similar.results;
-                })
-            );
-
-            const jsonResults = allResults.flat();
-
-            //Fetch images for each result
-            const enrichedResults = await Promise.all(jsonResults.map(async (result) => {
-                let imageUrl = null;
-                let id = null;
-                if (result.mediaType === 'book') {
-                    try {
-                        const booksResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${result.name}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
-                        const booksData = await booksResponse.json();
-                        console.log(result.name, booksData);
-                        id = booksData.items[0]?.id;
-                        // imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || "none";
-                        imageUrl = `https://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=2`;
-
-                        // const booksResponse = await fetch(`https://openlibrary.org/search.json?q=${result.name}`);
-                        // const booksData = await booksResponse.json();
-                        // console.log(result.name, booksData);
-                        // // id = booksData.docs.;
-                        // imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || "none";
-                        // imageUrl = `https://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=2`;
-                    } catch (e) {
-                        console.log(`Failed to fetch image for book ${result.name}:` + e);
+            try {
+                const enrichedResults = await axios.get(
+                    `${apiUrl}/media/tastedive`,
+                    {
+                        params: { // .query
+                            searchInput: searchInput,
+                            selectedMedias: JSON.stringify(selectedMedias),
+                        }
+                    },
+                    {
+                        withCredentials: true
                     }
-                } else if (result.mediaType === 'movie') {
-                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
-                    const tmdbData = await tmdbResponse.json();
-                    console.log(tmdbData);
-                    id = tmdbData.results[0]?.id;
-                    imageUrl = tmdbData.results[0]?.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
-                        : null;
-                } else if (result.mediaType === 'show') {
-                    const tmdbResponse = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${result.name}`);
-                    const tmdbData = await tmdbResponse.json();
-                    console.log(tmdbData);
-                    id = tmdbData.results[0]?.id;
-                    imageUrl = tmdbData.results[0]?.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}`
-                        : null;
-                }
-    
-                return { ...result, imageUrl };
-            }));
-        
-            setSearchResults(enrichedResults);
-            console.log(enrichedResults); // DEBUG
-            window.scrollTo({
-                top: 800,
-                behavior: 'smooth'
-            });
-            console.log("Success, displaying results");
-        } catch (error) {
-            console.error("Error occurred while fetching search results: ", error);
+                ).data;
+            
+                setSearchResults(enrichedResults);
+                console.log(enrichedResults); // DEBUG
+                window.scrollTo({
+                    top: 800,
+                    behavior: 'smooth'
+                });
+                console.log("Success, displaying results");
+            } catch (error) {
+                console.error("Error occurred while fetching search results: ", error);
+            }
+            setPrevQuery(searchInput);
         }
         setIsSubmitting(false);
     }
@@ -177,8 +90,8 @@ const Home = () => {
                     {/* Title */}
                     <div className="flex-1 flex flex-col my-[clamp(4rem,4rem+5vw,10rem)] items-center justify-center text-center">
                         <span className="text-[clamp(2rem,1.75rem+1vw,3rem)] font-semibold text-deepblack">
-                            <h1>Your next favorite, tailored for you.</h1>
-                            {/* <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span> */}
+                            <span className="hidden sm:inline">Your next favorite, tailored for you.</span>
+                            <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span>
                         </span>
                         {/* <button onClick={testFunc}>TEST</button> */}
                     </div>
