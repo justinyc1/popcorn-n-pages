@@ -16,6 +16,7 @@ export const tasteDive = async (req, res) => {
         });
         // selectedMedias is now an array of selected media types
 
+        return res.json("TEST");
         console.log("TEST1");
         const allResults = await Promise.all(
             selectedMedias.map(async (mediaType) => {
