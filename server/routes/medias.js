@@ -1,11 +1,11 @@
 import express from 'express';
-import { recommendMedias } from '../controllers/MediasController.js';
+import { recommendMedias, tasteDive } from '../controllers/MediasController.js';
 import { authenticateToken } from '../middleware/authenticateToken.js';
 
 const router = express.Router();
 
 router.get("/recommend", recommendMedias);
 
-// delete account from db
+router.get("/tastedive", tasteDive);
 
 export default router;
