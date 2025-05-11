@@ -21,6 +21,10 @@ app.use(cors({
 // routes
 app.use('/api', apiRouter);
 
+app.use('/', (req, res) => {
+  res.send("API is running.");
+});
+
 // add http request logging to help us debug and audit app use
 const logFormat = app.get("env") === "production" ? "combined" : "dev";
 app.use(morgan(logFormat));

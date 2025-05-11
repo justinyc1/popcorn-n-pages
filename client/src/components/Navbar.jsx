@@ -66,13 +66,13 @@ const Navbar = () => {
                     {isAuthenticated && 
                         <div>
                             <Link to="/profile" className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
-                                My Profile
-                            </Link>
-                            <Link to="/">
-                                <button onClick={handleLogout} className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
-                                    Logout
+                                <button className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
+                                    My Profile
                                 </button>
                             </Link>
+                            <button onClick={handleLogout} className="px-[0.75rem] py-[0.5rem] rounded-lg hover:text-lightblue-darkest transition ease-in-out duration-100">
+                                Logout
+                            </button>
                         </div> 
                     }
                     {isAuthenticated === false && 
@@ -119,7 +119,7 @@ const Navbar = () => {
                             My Profile
                         </Link>
                         <Link to="/">
-                            <button onClick={() => { handleLogout(), toggleMobileMenu() }} className="hover:text-lightorange">
+                            <button onClick={() => { handleLogout(); toggleMobileMenu(); }} className="hover:text-lightorange">
                                 Logout
                             </button>
                         </Link>
