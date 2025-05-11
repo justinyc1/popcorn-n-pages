@@ -12,13 +12,14 @@ export default {
         xs: '30rem',
       },
       colors: {
-        lightorange: {
-          lightest: '#ffd29c',
-          lighter: '#ffcf94',
-          DEFAULT: '#ffcb8a',
-          darker: '#edb774',
-          darkest: '#dea764',
+        popcorn: {
+          light: '#FFF3B0',
+          DEFAULT: '#FFD95A',
+          dark: '#E8B923',
+          accent: '#A43E2E',
+          white: '#FFFDF7',
         },
+            
         lightblue: {
           lightest: '#5cd4ff',
           lighter: '#4dd0ff',
