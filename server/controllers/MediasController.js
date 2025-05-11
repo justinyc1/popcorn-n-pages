@@ -5,6 +5,7 @@ export const recommendMedias = async (req, res) => {
 };
 
 export const tasteDive = async (req, res) => {
+    return res.json("TEST");
     console.log("TEST");
     const searchQuery = req.query.searchInput;
     const mediaTypes = JSON.parse(req.query.selectedMedias);
@@ -16,7 +17,6 @@ export const tasteDive = async (req, res) => {
         });
         // selectedMedias is now an array of selected media types
 
-        return res.json("TEST");
         console.log("TEST1");
         const allResults = await Promise.all(
             selectedMedias.map(async (mediaType) => {
