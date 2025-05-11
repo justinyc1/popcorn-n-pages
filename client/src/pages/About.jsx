@@ -29,7 +29,7 @@ const About = () => {
                         </p>
                         <h2 className="text-[clamp(1rem,1rem+1vw,1.5rem)] font-semibold mt-[1.5rem] mb-[1rem]">Other</h2>
                         <p className="text-[clamp(0.75rem,0.5rem+1vw,1rem)] text-gray-200">
-                            For more details, feel free to check out the GitHub repository <a href="https://github.com/justinyc1/popcorn-n-pages" className="text-lightblue underline">here</a>.
+                            For more details, feel free to check out the GitHub repository <a href="https://github.com/justinyc1/popcorn-n-pages" className="text-lightblue underline hover:text-lightorange-darkest transition ease-in-out duration-250">here</a>.
                         </p>
                     </section>
                 </main>
