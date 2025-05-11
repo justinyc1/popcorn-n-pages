@@ -39,7 +39,13 @@ export default {
           darker: '#24242E',
         },
         deepblack: {
+          lighter: '#28282a',
           DEFAULT: '#232324',
+        },
+        darkblack: {
+          lightest: '#121214',
+          lighter: '#0b0b0d',
+          DEFAULT: '#040408',
         },
       }, 
     },

@@ -1,22 +1,19 @@
-import { fetchBookData, fetchMovieData, fetchTasteDive, fetchTVShowData } from "../services/mediaService.js";
+import { fetchImages, fetchTasteDive } from "../services/mediaService.js";
 
 export const recommendMedias = async (req, res) => {
   
 };
 
 export const tasteDive = async (req, res) => {
-    console.log("TEST");
     const searchQuery = req.query.searchInput;
     const mediaTypes = JSON.parse(req.query.selectedMedias);
 
     try {
-        console.log("TEST0");
         const selectedMedias = Object.keys(mediaTypes).filter((key) => {
             return mediaTypes[key];
         });
         // selectedMedias is now an array of selected media types
 
-        console.log("TEST1");
         const allResults = await Promise.all(
             selectedMedias.map(async (mediaType) => {
                 const jsonData = await fetchTasteDive(searchQuery, mediaType);
@@ -27,33 +24,12 @@ export const tasteDive = async (req, res) => {
                 return jsonData.similar.results;
             })
         );
-        console.log("TEST2");
 
         const jsonResults = allResults.flat();
-        console.log("TEST3");
-
-        const enrichedResults = await Promise.all(jsonResults.map(async (result) => {
-            let imageUrl = null;
-            if (result.mediaType === 'book') {
-                const booksData = await fetchBookData(result.name);
-                const id = booksData.items[0]?.id;
-                // imageUrl = booksData.items[0]?.volumeInfo?.imageLinks?.thumbnail || "none";
-                imageUrl = `https://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=2`;
-            } else if (result.mediaType === 'movie') {
-                const tmdbData = await fetchMovieData(result.name);
-                imageUrl = tmdbData.results[0]?.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}` : null;
-            } else if (result.mediaType === 'show') {
-                const tmdbData = await fetchTVShowData(result.name);
-                imageUrl = tmdbData.results[0]?.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbData.results[0].poster_path}` : null;
-            }
-
-            return { ...result, imageUrl };
-        }));
-        console.log("TEST4");
+        const enrichedResults = await fetchImages(jsonResults);
 
         return res.status(200).json(enrichedResults);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ error });
     }
 };
