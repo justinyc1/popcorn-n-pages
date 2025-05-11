@@ -47,7 +47,7 @@ const Home = () => {
             console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
             try {
-                const enrichedResults = await axios.get(
+                const response = await axios.get(
                     `${apiUrl}/media/tastedive`,
                     {
                         params: { // .query
@@ -58,10 +58,12 @@ const Home = () => {
                     {
                         withCredentials: true
                     }
-                ).data;
+                );
             
-                setSearchResults(enrichedResults);
+                const enrichedResults = response.data;
+
                 console.log(enrichedResults); // DEBUG
+                setSearchResults(enrichedResults);
                 window.scrollTo({
                     top: 800,
                     behavior: 'smooth'
