@@ -90,8 +90,8 @@ const Home = () => {
                     {/* Title */}
                     <div className="flex-1 flex flex-col my-[clamp(4rem,4rem+5vw,10rem)] items-center justify-center text-center">
                         <span className="text-[clamp(2rem,1.75rem+1vw,3rem)] font-semibold text-deepblack">
-                            <h1>Your next favorite, tailored for you.</h1>
-                            {/* <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span> */}
+                            <span className="hidden sm:inline">Your next favorite, tailored for you.</span>
+                            <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span>
                         </span>
                         {/* <button onClick={testFunc}>TEST</button> */}
                     </div>
