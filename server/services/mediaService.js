@@ -11,10 +11,13 @@ export const fetchTasteDive = async (searchQuery, mediaType) => {
     );
     console.log("TESTb");
 
-    const data = await tasteDiveResponse.json();
+    console.log(tasteDiveResponse);
+    
     console.log("TESTc");
-    console.log(data);
+    const data = await tasteDiveResponse.json();
     console.log("TESTd");
+    console.log(data);
+    console.log("TESTe");
     return data;
 }
 
