@@ -23,7 +23,7 @@ export const tasteDive = async (req, res) => {
                 // assign the media type to each result
                 console.log(jsonData);
                 console.log("TESTx");
-                if (jsonData.similar.results !== undefined) {
+                if (jsonData.similar !== undefined) {
                     jsonData.similar.results?.forEach((result) => {
                         result.mediaType = mediaType;
                     });
