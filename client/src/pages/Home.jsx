@@ -18,7 +18,7 @@ const Home = () => {
 
     // when fetchSearch() when Enter key is pressed
     const handleKeyDown = (e) => {
-        if (inputRef.current.value.trim().length !== 0) return;
+        if (inputRef.current.value.trim().length === 0) return;
         if (e.key === "Enter") {
             fetchSearch(inputRef.current.value, selectedMedias);
         }
@@ -74,7 +74,6 @@ const Home = () => {
             // setPrevQuery(searchInput);
         // }
         setIsSubmitting(false);
-        console.log("DEBUG7");
     }
 
     // const testFunc = () => {
@@ -160,7 +159,7 @@ const Home = () => {
                 {/* Search Results */}
                 {searchResults.length > 0 && ( // only show if there is a query
                     <div className="p-6 flex-grow">
-                        <h2 className="text-4xl font-semibold text-center mt-4 mb-8">Search Results</h2>
+                        <h2 className="text-[clamp(1.5rem,1.5rem+1vw,2.5rem)] font-semibold text-center mt-4 mb-8">Search Results</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 mx-auto md:max-w-[calc(384px+50%)] gap-[2rem]">
                             {searchResults && searchResults.map((result, index) => (
                                 <Card
