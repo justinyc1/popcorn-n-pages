@@ -156,7 +156,7 @@ const Register = () => {
             </Helmet>
             <div className="flex items-center justify-center transform min-h-[calc(100vh-60px)] -translate-y-[10%]">{/* position of box in page */}
                 {!showSuccess ? 
-                    <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[30rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                    <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[30rem] p-[2rem] bg-raisinblack text-white rounded-lg shadow-lg"> {/* properties of box */}
                         <h1 className="text-2xl font-semibold text-center my-[0.75rem]">Sign up</h1>
                         <form onSubmit={handleSubmit}>
                             <div className="min-h-[1rem]"> {/* username */}
@@ -165,7 +165,7 @@ const Register = () => {
                                     type="text" 
                                     id="username" 
                                     name="username" 
-                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    className="w-full h-9 border border-gray-300 text-black rounded-md px-2" 
                                     autoComplete="off"
                                     value={formData.username}
                                     onChange={handleChange}
@@ -180,7 +180,7 @@ const Register = () => {
                                     type="text" 
                                     id="displayName" 
                                     name="displayName" 
-                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    className="w-full h-9 border border-gray-300 text-black rounded-md px-2" 
                                     autoComplete="off"
                                     value={formData.displayName}
                                     onChange={handleChange}
@@ -195,7 +195,7 @@ const Register = () => {
                                     type="password" 
                                     id="password" 
                                     name="password" 
-                                    className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                    className="w-full h-9 border border-gray-300 text-black rounded-md px-2" 
                                     autoComplete="off"
                                     value={formData.password}
                                     onChange={handleChange}
@@ -207,7 +207,7 @@ const Register = () => {
                             <button 
                                 type="submit" 
                                 disabled={isSubmitting} 
-                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
+                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md hover:bg-lightorange-darkest transition ease-in-out duration-250"
                             >
                                 {isSubmitting ? "Signing up..." : "Sign Up"}    
                             </button>
@@ -215,18 +215,18 @@ const Register = () => {
                                 {errors.server && <span className="text-sm text-red-500">{errors.server}</span>}
                             </div>
                             <div className="text-[0.8rem] font-normal">
-                                Already have an account? {<Link to="/login" className="text-lightblue-darkest underline font-semibold">Sign in</Link>}
+                                Already have an account? {<Link to="/login" className="text-lightblue-darkest underline font-semibold hover:text-lightorange-darkest transition ease-in-out duration-250">Sign in</Link>}
                             </div>
                         </form>
                     </div> : 
-                    <div className="max-w-[80%] xs:max-w-[calc(384px)] min-h-[10rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                    <div className="max-w-[80%] xs:max-w-[calc(384px)] min-h-[10rem] p-[2rem] bg-raisinblack text-white rounded-lg shadow-lg"> {/* properties of box */}
                         <h1 className="text-2xl my-[0.75rem] font-semibold text-center">Account created successfully!</h1>
                         <div className="my-[2.5rem]"></div>   
                         <h3 className="text-lg my-[1rem] font-semibold text-center">You will be automatically redirected to the Login page in {countdown} second{countdown !== 1 ? "s" : ""}...</h3>
                         <div className="py-[1rem]">
                             <button 
                                 onClick={() => navigate("/login")}
-                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
+                                className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md hover:bg-lightorange-darkest transition ease-in-out duration-250"
                             >
                                 Continue to Login    
                             </button>

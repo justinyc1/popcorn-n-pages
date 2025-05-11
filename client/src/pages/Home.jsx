@@ -14,7 +14,7 @@ const Home = () => {
     });
     const [searchResults, setSearchResults] = useState([]);
     const inputRef = useRef();
-    const [prevQuery, setPrevQuery] = useState("");
+    // const [prevQuery, setPrevQuery] = useState("");
 
     // when fetchSearch() when Enter key is pressed
     const handleKeyDown = (e) => {
@@ -44,7 +44,7 @@ const Home = () => {
     const fetchSearch = async (searchInput, selectedMedias) => {
         console.log("DEBUG1");
         setIsSubmitting(true);
-        if (searchInput !== prevQuery) {
+        // if (searchInput !== prevQuery) {
             console.log("DEBUG2");
             console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
@@ -71,7 +71,7 @@ const Home = () => {
                 setSearchResults(enrichedResults);
                 console.log("DEBUG6");
                 window.scrollTo({
-                    top: 800,
+                    top: 560,
                     behavior: 'smooth'
                 });
                 console.log("Success, displaying results");
@@ -79,8 +79,8 @@ const Home = () => {
                 console.log(error);
                 // console.error("Error occurred while fetching search results: ", error);
             }
-            setPrevQuery(searchInput);
-        }
+            // setPrevQuery(searchInput);
+        // }
         setIsSubmitting(false);
         console.log("DEBUG7");
     }
@@ -95,26 +95,26 @@ const Home = () => {
                 <title>Popcorn & Pages</title>
                 <meta name="description" content="Get recommendations for movies, TV shows, and books tailored for you." />
             </Helmet>
-            <div className="flex flex-col text-deepblack min-h-[calc(100vh-60px)]">
+            <div className="flex flex-col text-white min-h-[calc(100vh-60px)]">
                 <div>
                     {/* Title */}
-                    <div className="flex-1 flex flex-col my-[clamp(4rem,4rem+5vw,10rem)] items-center justify-center text-center">
-                        <span className="text-[clamp(2rem,1.75rem+1vw,3rem)] font-semibold text-deepblack">
+                    <div className="flex-1 flex flex-col my-[clamp(4rem,4rem+5vw,8rem)] items-center justify-center text-center">
+                        <span className="text-[clamp(2rem,1.75rem+1vw,3rem)] font-semibold text-white">
                             <span className="hidden sm:inline">Your next favorite, tailored for you.</span>
                             <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span>
                         </span>
                         {/* <button onClick={testFunc}>TEST</button> */}
                     </div>
                     {/* Search Container */}
-                    <div className="flex-1 flex flex-col pb-32 items-center justify-center">
+                    <div className="flex-1 flex flex-col items-center justify-center">
                         {/* Search Bar */}
-                        <div className="w-[95%] xs:max-w-[calc(360px+20%)] text-center p-px rounded-full bg-gradient-to-r from-lightorange-lightest via-lightgreen-lightest to-lightblue-lightest focus-within:bg-gradient-to-r">
+                        <div className="w-[95%] xs:max-w-[calc(360px+20%)] text-center p-[0.1rem] rounded-full bg-gradient-to-r from-lightorange-lightest via-lightgreen-lightest to-lightblue-lightest focus-within:bg-gradient-to-r">
                             <input
                                 id="search-input"
                                 type="text"
                                 ref={inputRef}
                                 placeholder="Enter movies, TV shows, or books for recommendations..."
-                                className="w-full py-3 px-4 text-[clamp(0.8rem,0.5rem+1vw,1rem)] justify-center rounded-full focus:outline-none"
+                                className="w-full py-3 px-4 text-[clamp(0.8rem,0.5rem+1vw,1rem)] justify-center rounded-full text-black bg-gray-100 focus:outline-none"
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
@@ -158,7 +158,7 @@ const Home = () => {
                         <div className="default-content text-center">
                             <button onClick={handleExplore} disabled={isSubmitting} className="my-[3rem] px-[1.5rem] py-[0.75rem] text-[clamp(0.75rem,0.5rem+1vw,1.2rem)] font-semibold 
                                     bg-gradient-to-r from-lightorange-lighter/90 via-lightgreen-lighter/90 to-lightblue-lighter/90 text-white rounded-lg shadow-lg 
-                                    hover:bg-gradient-to-r hover:from-lightorange hover:via-lightgreen hover:to-lightblue transition-all duration-300 ease-in-out will-change-transform hover:scale-105">
+                                    hover:bg-gradient-to-r hover:from-lightorange-darker hover:via-lightgreen-darker hover:to-lightblue-darker transition-all duration-300 ease-in-out will-change-transform hover:scale-105">
                                 {isSubmitting === true ? "Loading Results..." : "Start Exploring"}
                             </button>
                         </div>

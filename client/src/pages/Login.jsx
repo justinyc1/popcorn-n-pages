@@ -127,7 +127,7 @@ const Login = () => {
                 <meta name="description" content="Sign in to get back to your personalized recommendations." />
             </Helmet>
             <div className="flex items-center justify-center transform min-h-[calc(100vh-60px)] -translate-y-[10%]"> {/* position of box in page */}
-                <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[25rem] p-[2rem] bg-white rounded-lg shadow-lg"> {/* properties of box */}
+                <div className="min-w-[83%] xs:min-w-[24rem] max-w-[90%] min-h-[25rem] p-[2rem] bg-raisinblack text-white rounded-lg shadow-lg"> {/* properties of box */}
                     <h1 className="text-2xl font-semibold text-center my-[0.75rem]">Sign in</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="min-h-[1rem]"> {/* username */}
@@ -136,7 +136,7 @@ const Login = () => {
                                 type="text" 
                                 id="username" 
                                 name="username" 
-                                className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                className="w-full h-9 border border-gray-300 text-black rounded-md px-2" 
                                 autoComplete="off"
                                 value={formData.username}
                                 onChange={handleChange}
@@ -151,7 +151,7 @@ const Login = () => {
                                 type="password" 
                                 id="password" 
                                 name="password" 
-                                className="w-full h-9 border border-gray-300 rounded-md px-2" 
+                                className="w-full h-9 border border-gray-300 text-black rounded-md px-2" 
                                 autoComplete="off"
                                 value={formData.password}
                                 onChange={handleChange}
@@ -163,7 +163,7 @@ const Login = () => {
                         <button 
                             type="submit" 
                             disabled={isSubmitting} 
-                            className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md"
+                            className="w-full h-9 bg-lightblue-darker text-white font-medium rounded-md hover:bg-lightorange-darkest transition ease-in-out duration-250"
                         >
                             {isSubmitting ? "Signing in..." : "Sign in"}    
                         </button>
@@ -171,7 +171,7 @@ const Login = () => {
                             {errors.server && <span className="text-[0.75rem] text-red-500">{errors.server}</span>}
                         </div>
                         <div className="text-[0.8rem] font-normal">
-                            Don&#39;t have an account? {<Link to="/register" className="text-lightblue-darkest underline font-semibold">Sign up</Link>}
+                            Don&#39;t have an account? {<Link to="/register" className="text-lightblue-darkest underline font-semibold hover:text-lightorange-darkest transition ease-in-out duration-250">Sign up</Link>}
                         </div>
                     </form>
                 </div>

@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <AuthProvider>
         <Navbar />
-        <div className="main-content mt-[60px] min-h-[calc(100vh-60px)] bg-gray-50">
+        <div className="main-content mt-[60px] min-h-[calc(100vh-60px)] bg-darkblack-lightest">
         <Suspense fallback={<LoadingSpinner />}>
             <Routes>
               <Route path="/" element={<Home />} />
