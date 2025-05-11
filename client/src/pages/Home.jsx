@@ -124,15 +124,6 @@ const Home = () => {
                             <label className="">Media types:</label>
 
                             <form className="flex gap-[1rem]">
-                                <label className="flex align-center gap-[clamp(0.1rem,0.25rem+1vw,0.25rem)] accent-lightblue-lightest">
-                                <input 
-                                    type="checkbox" 
-                                    value="book" 
-                                    checked={selectedMedias.book}
-                                    onChange={handleMediaChange}
-                                />
-                                Books
-                                </label>
                                 <label className="flex align-center gap-[clamp(0.1rem,0.1rem+1vw,0.25rem)] accent-lightblue-lightest">
                                 <input 
                                     type="checkbox" 
@@ -150,6 +141,15 @@ const Home = () => {
                                     onChange={handleMediaChange}
                                 />
                                 TV Shows
+                                </label>
+                                <label className="flex align-center gap-[clamp(0.1rem,0.25rem+1vw,0.25rem)] accent-lightblue-lightest">
+                                <input 
+                                    type="checkbox" 
+                                    value="book" 
+                                    checked={selectedMedias.book}
+                                    onChange={handleMediaChange}
+                                />
+                                Books
                                 </label>
                             </form>
                         </div>
