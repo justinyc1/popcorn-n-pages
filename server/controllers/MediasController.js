@@ -18,12 +18,11 @@ export const tasteDive = async (req, res) => {
         const allResults = await Promise.all(
             selectedMedias.map(async (mediaType) => {
                 const jsonData = await fetchTasteDive(searchQuery, mediaType);
-                const similarResults = jsonData.similar.results;
                 // assign the media type to each result
-                similarResults.forEach((result) => {
+                jsonData.similar.results?.forEach((result) => {
                     result.mediaType = mediaType;
                 });
-                return similarResults;
+                return jsonData.similar.results;
             })
         );
         console.log("TEST2");
