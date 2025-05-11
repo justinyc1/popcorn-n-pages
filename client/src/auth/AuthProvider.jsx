@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
 import { apiUrl } from "../config";
+import { useNavigate } from "react-router-dom";
 
 
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null); // null = loading, false = not logged in, true = logged in
+    const navigate = useNavigate();
 
     // check auth status on mount
     useEffect(() => {
@@ -21,26 +23,15 @@ export const AuthProvider = ({ children }) => {
                 );
 
                 if (response.status == 200) { // success
-                    // console.log("Auth success!");
                     setIsAuthenticated(true);
                 }
-                // setIsAuthenticated(true);
             } catch (error) {
-                const serverError = error.response?.data?.error;
                 const status = error.response?.status;
     
-                console.log("Status " + status + ", Server error: " + serverError);
-                console.log("error status: " + status);
-    
-                if (status === 401) {
-                    console.log("No token provided.");
-                    setIsAuthenticated(false);
-                } else if (status === 501) {
-                    console.log("Invalid token.");
+                if (status === 401 || status === 501) {
                     setIsAuthenticated(false);
                 }
-                // if (error.response.status === 401)
-                // setIsAuthenticated(false);
+                setIsAuthenticated(false);
             }
         };
         checkAuth();
@@ -58,6 +49,7 @@ export const AuthProvider = ({ children }) => {
             console.log("Logout success: " + response.data.message);
         }
         setIsAuthenticated(false);
+        navigate("/");
     }
 
     return (
