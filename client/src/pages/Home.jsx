@@ -95,7 +95,7 @@ const Home = () => {
             const allResults = await Promise.all(
                 medias.map(async (mediaType) => {
                     console.log("fetching for " + mediaType);
-                    const tasteDiveResponse = await fetch(`https://tastedive.com/similar?q=${searchInput}&type=${mediaType}&info=1&k=${apiKey}`);
+                    const tasteDiveResponse = await fetch(`https://tastedive.com/api/similar?q=${searchInput}&type=${mediaType}&info=1&k=${apiKey}`);
                     const tasteDiveData = await tasteDiveResponse.json();
                     tasteDiveData.similar.results.forEach((result) => {
                         result.mediaType = mediaType;
