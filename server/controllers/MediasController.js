@@ -5,10 +5,12 @@ export const recommendMedias = async (req, res) => {
 };
 
 export const tasteDive = async (req, res) => {
+    console.log("TEST");
     const searchQuery = req.query.searchInput;
     const mediaTypes = JSON.parse(req.query.selectedMedias);
 
     try {
+        console.log("TEST0");
         const selectedMedias = Object.keys(mediaTypes).filter((key) => {
             return mediaTypes[key];
         });
@@ -52,6 +54,6 @@ export const tasteDive = async (req, res) => {
         return res.status(200).json(enrichedResults);
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ error: "Something unexpected happened when trying to fetch TasteDive results:" });
+        return res.status(500).json({ error });
     }
 };
