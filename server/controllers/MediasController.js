@@ -22,9 +22,12 @@ export const tasteDive = async (req, res) => {
             selectedMedias.map(async (mediaType) => {
                 const jsonData = await fetchTasteDive(searchQuery, mediaType);
                 // assign the media type to each result
-                jsonData.similar.results?.forEach((result) => {
-                    result.mediaType = mediaType;
-                });
+                console.log(jsonData.similar);
+                if (jsonData.similar.results !== undefined) {
+                    jsonData.similar.results?.forEach((result) => {
+                        result.mediaType = mediaType;
+                    });
+                }
                 return jsonData.similar.results;
             })
         );
