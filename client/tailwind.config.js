@@ -34,9 +34,9 @@ export default {
           DEFAULT: '#B2CAB6',
         },
         raisinblack: {
-          lighter: '#383846',
-          DEFAULT: '#2E2E3A',
-          darker: '#24242E',
+          lighter: '#383838',
+          DEFAULT: '#2E2E2E',
+          darker: '#242424',
         },
         deepblack: {
           lighter: '#28282a',

@@ -8,9 +8,9 @@ const Card = React.lazy(() => import("../components/Card"));
 const Home = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedMedias, setSelectedMedias] = useState({
-        book: false,
         movie: true,
         show: false,
+        book: false,
     });
     const [searchResults, setSearchResults] = useState([]);
     const inputRef = useRef();
@@ -18,7 +18,7 @@ const Home = () => {
 
     // when fetchSearch() when Enter key is pressed
     const handleKeyDown = (e) => {
-        if (inputRef.current.value.trim().length !== 0) return;
+        if (inputRef.current.value.trim().length === 0) return;
         if (e.key === "Enter") {
             fetchSearch(inputRef.current.value, selectedMedias);
         }
@@ -42,14 +42,11 @@ const Home = () => {
     };
 
     const fetchSearch = async (searchInput, selectedMedias) => {
-        console.log("DEBUG1");
         setIsSubmitting(true);
         // if (searchInput !== prevQuery) {
-            console.log("DEBUG2");
             console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
             try {
-                console.log("DEBUG3");
                 const response = await axios.get(
                     `${apiUrl}/media/tastedive`,
                     {
@@ -62,27 +59,21 @@ const Home = () => {
                         withCredentials: true
                     }
                 );
-                console.log("DEBUG4");
-            
                 const enrichedResults = response.data;
-                console.log("DEBUG5");
 
-                console.log(enrichedResults); // DEBUG
                 setSearchResults(enrichedResults);
-                console.log("DEBUG6");
                 window.scrollTo({
                     top: 560,
                     behavior: 'smooth'
                 });
                 console.log("Success, displaying results");
-            } catch (error) {
-                console.log(error);
-                // console.error("Error occurred while fetching search results: ", error);
+            } catch {
+                console.error("Error occurred while fetching search results.");
+                
             }
             // setPrevQuery(searchInput);
         // }
         setIsSubmitting(false);
-        console.log("DEBUG7");
     }
 
     // const testFunc = () => {
@@ -168,7 +159,7 @@ const Home = () => {
                 {/* Search Results */}
                 {searchResults.length > 0 && ( // only show if there is a query
                     <div className="p-6 flex-grow">
-                        <h2 className="text-4xl font-semibold text-center mt-4 mb-8">Search Results</h2>
+                        <h2 className="text-[clamp(1.5rem,1.5rem+1vw,2.5rem)] font-semibold text-center mt-4 mb-8">Search Results</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 mx-auto md:max-w-[calc(384px+50%)] gap-[2rem]">
                             {searchResults && searchResults.map((result, index) => (
                                 <Card
