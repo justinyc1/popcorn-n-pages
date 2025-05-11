@@ -5,11 +5,16 @@ import process from "node:process";
 export const fetchTasteDive = async (searchQuery, mediaType) => {
     const TASTEDIVE_API_KEY = process.env.TASTEDIVE_API_KEY;
 
+    console.log("TESTa");
     const tasteDiveResponse = await fetch(
         `https://tastedive.com/api/similar?q=${searchQuery}&type=${mediaType}&info=1&k=${TASTEDIVE_API_KEY}`
     );
+    console.log("TESTb");
 
     const data = await tasteDiveResponse.json();
+    console.log("TESTc");
+    console.log(data);
+    console.log("TESTd");
     return data;
 }
 

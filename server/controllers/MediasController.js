@@ -21,7 +21,8 @@ export const tasteDive = async (req, res) => {
             selectedMedias.map(async (mediaType) => {
                 const jsonData = await fetchTasteDive(searchQuery, mediaType);
                 // assign the media type to each result
-                console.log(jsonData.similar);
+                console.log(jsonData);
+                console.log("TESTx");
                 if (jsonData.similar.results !== undefined) {
                     jsonData.similar.results?.forEach((result) => {
                         result.mediaType = mediaType;
