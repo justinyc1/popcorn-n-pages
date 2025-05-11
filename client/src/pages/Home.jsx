@@ -42,12 +42,15 @@ const Home = () => {
     };
 
     const fetchSearch = async (searchInput, selectedMedias) => {
+        console.log("DEBUG1");
         setIsSubmitting(true);
         if (searchInput !== prevQuery) {
+            console.log("DEBUG2");
             console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
             try {
-                const enrichedResults = await axios.get(
+                console.log("DEBUG3");
+                const response = await axios.get(
                     `${apiUrl}/media/tastedive`,
                     {
                         params: { // .query
@@ -58,21 +61,28 @@ const Home = () => {
                     {
                         withCredentials: true
                     }
-                ).data;
+                );
+                console.log("DEBUG4");
             
-                setSearchResults(enrichedResults);
+                const enrichedResults = response.data;
+                console.log("DEBUG5");
+
                 console.log(enrichedResults); // DEBUG
+                setSearchResults(enrichedResults);
+                console.log("DEBUG6");
                 window.scrollTo({
                     top: 800,
                     behavior: 'smooth'
                 });
                 console.log("Success, displaying results");
             } catch (error) {
-                console.error("Error occurred while fetching search results: ", error);
+                console.log(error);
+                // console.error("Error occurred while fetching search results: ", error);
             }
             setPrevQuery(searchInput);
         }
         setIsSubmitting(false);
+        console.log("DEBUG7");
     }
 
     // const testFunc = () => {
