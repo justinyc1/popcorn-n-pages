@@ -93,7 +93,7 @@ const Login = () => {
             );
 
             if (response.status >= 200 && response.status < 300) { // success
-                console.log("Login success: " + response.data.message);
+                // console.log("Login success: " + response.data.message);
 
                 setIsAuthenticated(true);
                 // localStorage.setItem("accessToken", response.data.token);
@@ -102,11 +102,11 @@ const Login = () => {
             }
 
         } catch (error) {
-            const serverError = error.response?.data?.error;
+            // const serverError = error.response?.data?.error;
             const status = error.response?.status;
 
-            console.log("Status " + status + ", Server error: " + serverError);
-            console.log("error status: " + status);
+            // console.log("Status " + status + ", Server error: " + serverError);
+            // console.log("error status: " + status);
 
             if (status === 404) {
                 setErrors(prev => ({ ...prev, username: "Username doesn't exist." }));

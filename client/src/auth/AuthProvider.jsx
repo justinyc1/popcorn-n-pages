@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
             }
         );
         if (response.data.message !== undefined) {
-            console.log("Logout success: " + response.data.message);
+            // console.log("Logout success: " + response.data.message);
         }
         setIsAuthenticated(false);
         navigate("/");
