@@ -1,13 +1,13 @@
-import { fetchImages, fetchTasteDive } from "../services/mediaService.js";
+import { fetchImages, fetchTasteDive, fetchGeminiAi } from "../services/mediaService.js";
 
 export const recommendMedias = async (req, res) => {
   
 };
 
-export const fetchGeminiAi = async (req, res) => {
+export const geminiAi = async (req, res) => {
     const mediaName = req.query.searchInput;
     const mediaTypes = JSON.parse(req.query.selectedMedias);
-
+    
     try {
         const selectedMedias = Object.keys(mediaTypes).filter((key) => {
             return mediaTypes[key];
@@ -15,18 +15,8 @@ export const fetchGeminiAi = async (req, res) => {
 
         const allResults = await Promise.all(
             selectedMedias.map(async (mediaType) => {
-                const response = await fetchGeminiAi(10, mediaName, mediaTypes);
-
-                const jsonResponse = (response) => {
-                        const start = response.indexOf("[")-1;
-                        const end = response.lastIndexOf("]")+1;
-                        if (start !== -1 && end !== -1 && end > start) {
-                            return response.substring(start, end + 1);
-                        }
-                        return response;
-                    }
-
-                return jsonResponse(result.response.text());
+                const jsonData = await fetchGeminiAi(15, mediaName, mediaType);
+                return jsonData;
             })
         );
 
@@ -40,7 +30,6 @@ export const fetchGeminiAi = async (req, res) => {
 export const tasteDive = async (req, res) => {
     const searchQuery = req.query.searchInput;
     const mediaTypes = JSON.parse(req.query.selectedMedias);
-
     try {
         const selectedMedias = Object.keys(mediaTypes).filter((key) => {
             return mediaTypes[key];
@@ -60,6 +49,7 @@ export const tasteDive = async (req, res) => {
 
         const jsonResults = allResults.flat();
         const enrichedResults = await fetchImages(jsonResults);
+        console.log(enrichedResults);
 
         return res.status(200).json(enrichedResults);
     } catch (error) {

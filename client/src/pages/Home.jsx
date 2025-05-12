@@ -62,10 +62,7 @@ const Home = () => {
                 const enrichedResults = response.data;
 
                 setSearchResults(enrichedResults);
-                window.scrollTo({
-                    top: 560,
-                    behavior: 'smooth'
-                });
+                scrollDown();
                 console.log("Success, displaying results");
             } catch {
                 console.error("Error occurred while fetching search results.");
@@ -76,8 +73,40 @@ const Home = () => {
         setIsSubmitting(false);
     }
 
-    // const testFunc = () => {
+    const scrollDown = () => {   
+        window.scrollTo({
+            top: 560,
+            behavior: 'smooth'
+        });
+    }
+
+    // const testFunc = async () => {
+    //     console.log("DEBUG 0");
     //     console.log(inputRef.current.value);
+    //     try {
+    //         const response = await axios.get(
+    //             `${apiUrl}/media/gemini`,
+    //             {
+    //                 params: { // .query
+    //                     searchInput: inputRef.current.value,
+    //                     selectedMedias: JSON.stringify(selectedMedias),
+    //                 }
+    //             },
+    //             {
+    //                 withCredentials: true
+    //             }
+    //         );
+    //         console.log("DEBUG 1");
+            
+    //         console.log(response);
+
+    //         console.log("DEBUG 2");
+
+    //         console.log("Success, displaying results");
+    //     } catch {
+    //         console.error("Error occurred while fetching search results.");
+            
+    //     }
     // }
 
     return (
@@ -94,7 +123,6 @@ const Home = () => {
                             <span className="hidden sm:inline">Your next favorite, tailored for you.</span>
                             <span className="inline sm:hidden">Your next favorite,<br/>tailored for you.</span>
                         </span>
-                        {/* <button onClick={testFunc}>TEST</button> */}
                     </div>
                     {/* Search Container */}
                     <div className="flex-1 flex flex-col items-center justify-center">
@@ -105,7 +133,7 @@ const Home = () => {
                                 type="text"
                                 ref={inputRef}
                                 placeholder="Enter movies, TV shows, or books for recommendations..."
-                                className="w-full py-3 px-4 text-[clamp(0.8rem,0.5rem+1vw,1rem)] justify-center rounded-full text-black bg-gray-100 focus:outline-none"
+                                className="w-full py-[clamp(0.5rem,0.1rem+1vw,0.75rem)] px-4 text-[clamp(0.5rem,0.5rem+1vw,1rem)] justify-center rounded-full text-black bg-gray-100 focus:outline-none"
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
@@ -152,6 +180,7 @@ const Home = () => {
                                     hover:bg-gradient-to-r hover:from-lightorange-darker hover:via-lightgreen-darker hover:to-lightblue-darker transition-all duration-300 ease-in-out will-change-transform hover:scale-105">
                                 {isSubmitting === true ? "Loading Results..." : "Start Exploring"}
                             </button>
+                            {/* <button onClick={testFunc} className="ml-4 px-4 py-2 bg-gray-500 rounded-md">Test Gemini</button> */}
                         </div>
                     </div>
                 </div>

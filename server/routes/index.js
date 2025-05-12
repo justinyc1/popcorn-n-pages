@@ -5,6 +5,7 @@ import mediasRouter from './medias.js';
 const router = express.Router();
 
 router.use("/auth", authRouter);
+
 router.use("/media", mediasRouter);
 
 export default router;
