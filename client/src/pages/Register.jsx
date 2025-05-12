@@ -124,7 +124,7 @@ const Register = () => {
             );
 
             if (response.status >= 200 && response.status < 300) { // success
-                console.log("Account created: " + response.data.message);
+                // console.log("Account created: " + response.data.message);
                 setShowSuccess(true);
                 // setTimeout(() => navigate("/login"), 5000); // redirect user to home page
                 setCountdown(5);
@@ -132,10 +132,10 @@ const Register = () => {
             }
 
         } catch (error) {
-            const serverError = error.response?.data?.error;
+            // const serverError = error.response?.data?.error;
             const status = error.response?.status;
 
-            console.log("Status " + status + ", Server error: " + serverError);
+            // console.log("Status " + status + ", Server error: " + serverError);
             // console.log(status);
 
             if (status === 409) {

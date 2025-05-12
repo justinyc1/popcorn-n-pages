@@ -44,7 +44,7 @@ const Home = () => {
     const fetchSearch = async (searchInput, selectedMedias) => {
         setIsSubmitting(true);
         // if (searchInput !== prevQuery) {
-            console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
+            // console.log(`Fetching data for search query: ${searchInput}`); // DEBUG
 
             try {
                 const response = await axios.get(
@@ -63,7 +63,7 @@ const Home = () => {
 
                 setSearchResults(enrichedResults);
                 scrollDown();
-                console.log("Success, displaying results");
+                // console.log("Success, displaying results");
             } catch {
                 console.error("Error occurred while fetching search results.");
                 
